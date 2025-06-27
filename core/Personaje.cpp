@@ -1,231 +1,115 @@
 #include "Personaje.h"
+#include <algorithm>    // std::min, std::max
 
-<<<<<<< Updated upstream
-// Constructor principal: clona 'nombre_' usando copiarTexto()
-Personaje::Personaje(const char* nombre_, int vida, int ki, int atk, int def, int vel)
-    : vidaMax(vida),
-    vidaActual(vida),
-    kiMax(ki),
-    kiActual(ki),
-    ataque(atk),
-    defensa(def),
-    velocidad(vel)
-=======
-// Constructor: clona nombre, inicializa stats y posición
+// Constructor: clona nombre y configura atributos iniciales
 Personaje::Personaje(const char* nombre_, int vidaInicial, int kiInicial,
                      int velX, int danoBase_, int kiMaximo)
-    : vida(vidaInicial), kiActual(kiInicial), kiMax(kiMaximo),
-    posicionX(0), posicionY(0.0f),
-    velocidadX(velX), velocidadY(0.0f), danoBase(danoBase_),
-    estado(EstadoPersonaje::IDLE), framesAccion(0)
->>>>>>> Stashed changes
+    : nombre(copiarTexto(nombre_)),
+    vida(vidaInicial),
+    kiActual(kiInicial),
+    kiMax(kiMaximo),
+    posicionX(0),
+    posicionY(0.0f),
+    velocidadX(velX),
+    velocidadY(0.0f),
+    danoBase(danoBase_),
+    estado(EstadoPersonaje::IDLE),
+    framesAccion(0)
 {
-    nombre = copiarTexto(nombre_);
 }
 
-<<<<<<< Updated upstream
-// Destructor: libera el buffer creado por copiarTexto
-=======
-// Destructor: libera nombre
->>>>>>> Stashed changes
+// Destructor: libera el buffer de nombre
 Personaje::~Personaje() {
     delete[] nombre;
 }
 
-<<<<<<< Updated upstream
-// Constructor de copia: clona todos los atributos escalares y el C-string
-Personaje::Personaje(const Personaje& otro)
-    : vidaMax(otro.vidaMax),
-    vidaActual(otro.vidaActual),
-    kiMax(otro.kiMax),
-    kiActual(otro.kiActual),
-    ataque(otro.ataque),
-    defensa(otro.defensa),
-    velocidad(otro.velocidad)
-{
-    nombre = copiarTexto(otro.nombre);
-}
-
-// Operador de asignación: libera el viejo buffer y clona el de 'otro'
-Personaje& Personaje::operator=(const Personaje& otro) {
-    if (this == &otro) return *this; // auto-asignación
-
-    delete[] nombre; // libera buffer anterior
-
-    vidaMax    = otro.vidaMax;
-    vidaActual = otro.vidaActual;
-    kiMax      = otro.kiMax;
-    kiActual   = otro.kiActual;
-    ataque     = otro.ataque;
-    defensa    = otro.defensa;
-    velocidad  = otro.velocidad;
-
-    nombre = copiarTexto(otro.nombre);
-    return *this;
-}
-
-// Resta la defensa al daño recibido y actualiza vidaActual
+// Recibe daño, teniendo en cuenta estado de agachado o defendiendo
 void Personaje::recibirDanio(int cantidad) {
-    int danio = cantidad - defensa;
-    if (danio < 0) danio = 0;
-    vidaActual -= danio;
-    if (vidaActual < 0) vidaActual = 0;
-}
-
-// Suma Ki hasta el máximo permitido
-=======
-// Métodos de combate
-void Personaje::recibirDanio(int cantidad) {
-    // Si está agachado y es un ataque normal (no bajo ni especial), lo esquiva
-    if (estado == EstadoPersonaje::AGACHADO) {
-        return;
-    }
+    if (estado == EstadoPersonaje::AGACHADO) return;           // esquiva
     int danio = cantidad;
-    if (estado == EstadoPersonaje::DEFENDIENDO) {
-        danio /= 2;
-    }
-    vida -= danio;
-    if (vida < 0) vida = 0;
+    if (estado == EstadoPersonaje::DEFENDIENDO) danio /= 2;    // mitiga
+    vida = std::max(0, vida - danio);
 }
 
->>>>>>> Stashed changes
+// Recupera Ki, sin exceder el máximo ni bajar de cero
 void Personaje::recuperarKi(int cantidad) {
-    kiActual += cantidad;
-    if (kiActual > kiMax) kiActual = kiMax;
+    kiActual = std::clamp(kiActual + cantidad, 0, kiMax);
 }
 
-<<<<<<< Updated upstream
-// Reinicia vida y Ki a sus valores máximos
-void Personaje::reiniciar() {
-    vidaActual = vidaMax;
-    kiActual   = kiMax;
-}
-
-// Devuelve el C-string del nombre
-const char* Personaje::getNombre() const {
-    return nombre;
-}
-
-// Devuelve la vida actual
-int Personaje::getVida() const {
-    return vidaActual;
-}
-
-// Devuelve el Ki actual
-int Personaje::getKi() const {
-    return kiActual;
-}
-
-// Devuelve la velocidad
-int Personaje::getVelocidad() const {
-    return velocidad;
-}
-
-// Indica si el personaje sigue vivo (vidaActual > 0)
-bool Personaje::estaVivo() const {
-    return vidaActual > 0;
-}
-
-// Imprime todos los atributos en consola (depuración)
-void Personaje::imprimirEstado() const {
-    std::cout << nombre
-              << " | Vida: "  << vidaActual << "/" << vidaMax
-              << " | Ki: "    << kiActual   << "/" << kiMax
-              << " | Atk: "   << ataque
-              << " | Def: "   << defensa
-              << " | Vel: "   << velocidad
-              << "\n";
-=======
 // Getters
-const char* Personaje::getNombre() const { return nombre; }
-int Personaje::getVida()        const { return vida; }
-int Personaje::getKi()          const { return kiActual; }
-int Personaje::getPosicionX()   const { return posicionX; }
-int Personaje::getDanoBase()   const { return danoBase; }
-float Personaje::getPosicionY() const { return posicionY; }
-EstadoPersonaje Personaje::getEstado() const { return estado; }
+const char*       Personaje::getNombre()   const { return nombre; }
+int               Personaje::getVida()     const { return vida; }
+int               Personaje::getKi()       const { return kiActual; }
+int               Personaje::getPosicionX()const { return posicionX; }
+float             Personaje::getPosicionY()const { return posicionY; }
+int               Personaje::getDanoBase() const { return danoBase; }
+EstadoPersonaje   Personaje::getEstado()   const { return estado; }
 
-// Movimiento horizontal
+// Acciones de movimiento y postura
+void Personaje::agacharse() {
+    if (estado == EstadoPersonaje::IDLE)
+        estado = EstadoPersonaje::AGACHADO;
+}
+void Personaje::levantarse() {
+    if (estado == EstadoPersonaje::AGACHADO)
+        estado = EstadoPersonaje::IDLE;
+}
 void Personaje::moverIzquierda() {
     if (estado == EstadoPersonaje::IDLE) {
-        posicionX = max(MIN_X, posicionX - velocidadX);
+        posicionX = std::max(MIN_X, posicionX - velocidadX);
         estado = EstadoPersonaje::MOVIENDO;
     }
 }
-
 void Personaje::moverDerecha() {
     if (estado == EstadoPersonaje::IDLE) {
-        posicionX = min(MAX_X, posicionX + velocidadX);
+        posicionX = std::min(MAX_X, posicionX + velocidadX);
         estado = EstadoPersonaje::MOVIENDO;
     }
 }
-
 void Personaje::detenerMovimiento() {
     if (estado == EstadoPersonaje::MOVIENDO)
         estado = EstadoPersonaje::IDLE;
 }
 
-// Salto vertical con física simple
+// Salto con física simple
 void Personaje::saltar() {
     if (estado == EstadoPersonaje::IDLE && posicionY == 0.0f) {
-        velocidadY = 10.0f;
+        velocidadY = /* valor inicial de salto, p.ej. */ 10.0f;
         estado = EstadoPersonaje::SALTANDO;
     }
 }
 
-// Agacharse: evita daño de ataques normales
-void Personaje::agacharse() {
-    if (estado == EstadoPersonaje::IDLE) {
-        cambiarEstado(EstadoPersonaje::AGACHADO, /*duración indefinida*/ 0);
-    }
-}
-
-// Levantarse: vuelve a idle si estaba agachado
-void Personaje::levantarse() {
-    if (estado == EstadoPersonaje::AGACHADO) {
-        estado = EstadoPersonaje::IDLE;
-    }
-}
-
-
-// Ataque
+// Ataques básicos
 void Personaje::atacar() {
-    if (estado == EstadoPersonaje::IDLE) {
+    if (estado == EstadoPersonaje::IDLE)
         cambiarEstado(EstadoPersonaje::ATACANDO, FRAMES_ATACAR);
-    }
-    else if (estado == EstadoPersonaje::AGACHADO) {
-        // al atacar agachado, dispara el ataque bajo
+    else if (estado == EstadoPersonaje::AGACHADO)
         atacarBajo();
-    }
 }
-
 void Personaje::atacarBajo() {
-    if (estado == EstadoPersonaje::IDLE) {
+    if (estado == EstadoPersonaje::IDLE)
         cambiarEstado(EstadoPersonaje::ATACANDO_BAJO, FRAMES_ATAQUE_BAJO);
-    }
 }
-
 void Personaje::defender() {
-    if (estado == EstadoPersonaje::IDLE) {
+    if (estado == EstadoPersonaje::IDLE)
         cambiarEstado(EstadoPersonaje::DEFENDIENDO, FRAMES_DEFENDER);
-    }
 }
 
-// Transición de estados internos
+// Cambio de estado y duración
 void Personaje::cambiarEstado(EstadoPersonaje nuevoEstado, int duracionFrames) {
     estado = nuevoEstado;
     framesAccion = duracionFrames;
 }
 
-// Update por frame
+// Update por frame: gestiona estado, física de salto y reseteo de movimiento
 void Personaje::update() {
-    // Gestión de duración de estados bloqueados
+    // Decrementa frames de acción bloqueada
     if (framesAccion > 0) {
-        framesAccion--;
-        if (framesAccion == 0 && estado != EstadoPersonaje::SALTANDO) {
+        --framesAccion;
+        if (framesAccion == 0 && estado != EstadoPersonaje::SALTANDO)
             estado = EstadoPersonaje::IDLE;
-        }
     }
+
     // Física de salto
     if (estado == EstadoPersonaje::SALTANDO) {
         posicionY += velocidadY;
@@ -236,9 +120,8 @@ void Personaje::update() {
             estado = EstadoPersonaje::IDLE;
         }
     }
-    // Terminación automática de movimiento
-    if (estado == EstadoPersonaje::MOVIENDO) {
+
+    // Tras moverse, vuelve a IDLE
+    if (estado == EstadoPersonaje::MOVIENDO)
         estado = EstadoPersonaje::IDLE;
-    }
->>>>>>> Stashed changes
 }

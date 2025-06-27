@@ -11,8 +11,7 @@ public:
     virtual ~Goku() = default;
 
     // Sobrescribe los métodos puros de Personaje
-    void atacar(Personaje* objetivo) override;
-    void habilidadEspecial(Personaje* objetivo) override;
+    void usarEspecial(Personaje* objetivo) override;
 };
 
 #endif // GOKU_H

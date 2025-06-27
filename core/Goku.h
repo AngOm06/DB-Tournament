@@ -2,13 +2,15 @@
 #define GOKU_H
 
 #include "Personaje.h"
-#include <iostream>
 
 class Goku : public Personaje {
 public:
+    // Inicializa a Goku con los valores específicos (nombre, vida, ki, ataque, defensa, velocidad)
     Goku();
-    ~Goku() override = default;
 
+    virtual ~Goku() = default;
+
+    // Sobrescribe los métodos puros de Personaje
     void usarEspecial(Personaje* objetivo) override;
 };
 

@@ -2,17 +2,14 @@
 
 Krilin::Krilin()
     : Personaje("Krilin",/*vidaInicial=*/80,/*kiInicial=*/40,/*velX=*/5,/*danoBase=*/4,/*kiMaximo=*/40)
-{
-    std::cout << "[LOG] Krilin creado: vida=" << getVida()
-    << ", ki=" << getKi() << std::endl;
-}
+{}
 
 void Krilin::usarEspecial(Personaje* objetivo) {
     if (!objetivo || objetivo->getVida() <= 0) {
         std::cout << getNombre() << " no tiene objetivo válido.\n";
         return;
     }
-    if (kiActual < 15) {
+    if (kiActual < 40) {
         std::cout << getNombre() << " no tiene suficiente Ki para Taiyoken.\n";
         return;
     }
