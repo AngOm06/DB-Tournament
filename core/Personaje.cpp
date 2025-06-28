@@ -56,13 +56,16 @@ void Personaje::levantarse() {
 }
 void Personaje::moverIzquierda() {
     if (estado == EstadoPersonaje::IDLE) {
-        posicionX = std::max(MIN_X, posicionX - velocidadX);
+        // posX nunca baja de MIN_X
+        posicionX = max(MIN_X, posicionX - velocidadX);
         estado = EstadoPersonaje::MOVIENDO;
     }
 }
+
 void Personaje::moverDerecha() {
     if (estado == EstadoPersonaje::IDLE) {
-        posicionX = std::min(MAX_X, posicionX + velocidadX);
+        // posX nunca sube de MAX_X
+        posicionX = min(MAX_X, posicionX + velocidadX);
         estado = EstadoPersonaje::MOVIENDO;
     }
 }

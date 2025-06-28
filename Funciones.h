@@ -13,4 +13,7 @@ bool sonIguales(const char* a, const char* b);
 // Devuelve true si 'texto' comienza con 'prefijo'.
 bool iniciaCon(const char* texto, const char* prefijo);
 
+int min(int a, int b);
+int max(int a, int b);
+
 #endif // FUNCIONES_H
