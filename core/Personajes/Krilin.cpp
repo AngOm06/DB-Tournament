@@ -6,7 +6,7 @@ Krilin::Krilin()
 
 void Krilin::usarEspecial(Personaje* objetivo) {
     if (!objetivo || objetivo->getVida() <= 0) {
-        std::cout << getNombre() << " no tiene objetivo válido.\n";
+        std::cout << getNombre() << " no tiene objetivo valido.\n";
         return;
     }
     if (kiActual < 40) {

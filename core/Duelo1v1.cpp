@@ -9,7 +9,7 @@ Duelo1v1::Duelo1v1(Personaje* jugador, Personaje* oponente)
     : _jugador(jugador), _oponente(oponente)
 {}
 
-Duelo1v1::~Duelo1v1() { /* no liberamos _jugador/_oponente */ }
+Duelo1v1::~Duelo1v1() {}
 
 bool Duelo1v1::run() {
     bool running = true;

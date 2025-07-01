@@ -9,7 +9,7 @@ Goku::Goku()
 void Goku::usarEspecial(Personaje* objetivo) {
     if (!objetivo || !objetivo->getVida()>0) return;
     if (estado != EstadoPersonaje::IDLE) {
-        std::cout << getNombre() << " está ocupado.\n";
+        std::cout << getNombre() << " esta ocupado.\n";
         return;
     }
     if (kiActual < 50) {

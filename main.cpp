@@ -1,36 +1,66 @@
-#include "Goku.h"
-#include "Krilin.h"
-#include "Duelo1v1.h"
-//#include "Torneo.h"
-
 #include <iostream>
+#include <vector>
+#include <cstdlib>   // std::srand, std::rand
+#include <ctime>     // std::time
+
+#include "Personajes/Goku.h"
+#include "Personajes/Krilin.h"
+#include "Personajes/Yamcha.h"
+#include "Personajes/JackieChun.h"
+#include "Personajes/Bacterian.h"
+#include "Personajes/Nam.h"
+#include "Personajes/Ranfan.h"
+#include "Personajes/Giran.h"
+
+#include "Torneo.h"
 
 int main() {
-    std::cout << "Bienvenido a DB Tournament!\n\n";
-    std::cout << "1. Combate rapido 1v1\n";
-    std::cout << "2. Torneo \n";
-    std::cout << "Seleccione una opcion: ";
+    // 1) Semilla para IA y decisiones aleatorias
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-    int opcion;
+    // 2) Crear roster completo de personajes
+    std::vector<Personaje*> roster;
+    roster.push_back(new Goku());
+    roster.push_back(new Krilin());
+    roster.push_back(new Yamcha());
+    roster.push_back(new JackieChun());
+    roster.push_back(new Bacterian());
+    roster.push_back(new Nam());
+    roster.push_back(new Ranfan());
+    roster.push_back(new Giran());
+
+    // 3) Mostrar menú de selección
+    std::cout << "=== Dragon Ball: Torneo del Gran Campeon ===\n";
+    std::cout << "Elige tu personaje:\n";
+    for (size_t i = 0; i < roster.size(); ++i) {
+        std::cout << "  " << (i+1) << ") " << roster[i]->getNombre() << "\n";
+    }
+    std::cout << "Opcion (1-8): ";
+    size_t opcion = 0;
     std::cin >> opcion;
+    if (opcion < 1 || opcion > roster.size()) opcion = 1;  // fallback
 
-    if (opcion == 1) {
-        // Combate simple entre Goku y Krilin
-        Personaje* goku   = new Goku();
-        Personaje* krilin = new Krilin();
-        Duelo1v1 duelo(goku, krilin);
-        bool gano = duelo.run();
-        std::cout << (gano ? "\nGoku gana el duelo!\n" : "\nKrilin gana el duelo!\n");
-        delete goku;
-        delete krilin;
+    // 4) Separar jugador y oponentes
+    Personaje* jugador = roster[opcion - 1];
+    roster.erase(roster.begin() + (opcion - 1));
+    std::vector<Personaje*> oponentes = roster;  // ahora roster contiene solo CPUs
+
+    // 5) Ejecutar el torneo de 3 rondas
+    Torneo torneo(jugador, oponentes);
+    Personaje* campeon = torneo.run();
+
+    // 6) Mostrar resultado final
+    std::cout << "\n\n=== Resultado del Torneo ===\n";
+    std::cout << "¡Campeon: " << campeon->getNombre() << "!\n";
+
+    // 7) Limpiar memoria
+    // - Jugador
+    delete jugador;
+    // - Oponentes
+    for (Personaje* p : oponentes) {
+        delete p;
     }
-    else if (opcion == 2) {
-        //Torneo torneo;
-        //torneo.iniciar();
-    }
-    else {
-        std::cout << "Opción inválida.\n";
-    }
+    oponentes.clear();
 
     return 0;
 }
