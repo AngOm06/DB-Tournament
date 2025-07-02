@@ -12,7 +12,7 @@
 #include "Personajes/Ranfan.h"
 #include "Personajes/Giran.h"
 
-#include "Torneo.h"
+#include "Modos/Torneo.h"
 
 int main() {
     // 1) Semilla para IA y decisiones aleatorias

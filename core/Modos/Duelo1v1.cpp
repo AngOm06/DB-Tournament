@@ -1,5 +1,5 @@
 #include "Duelo1v1.h"
-#include "Combate.h"
+#include "Util/Combate.h"
 #include "IA.h"
 #include <conio.h>     // _kbhit(), _getch()
 #include <thread>
