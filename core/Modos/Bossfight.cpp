@@ -6,8 +6,6 @@
 #include "IA.h"
 
 static constexpr int TIEMPO_MAXIMO = 1000;
-static constexpr int POS_JUGADOR_X = 25;
-static constexpr int POS_JEFE_X    = 75;
 
 Bossfight::Bossfight(Personaje* jugador, MonoGigante* jefe)
     : _jugador(jugador), _jefe(jefe), _tiempoGlobal(TIEMPO_MAXIMO)
@@ -20,13 +18,6 @@ Bossfight::Bossfight(Personaje* jugador, MonoGigante* jefe)
 Bossfight::~Bossfight() {
     delete _jefe;
 }
-
-/*bool Bossfight::run() {
-    while (_tiempoGlobal > 0 && _jugador->getVida() > 0 && _jefe->getVida() > 0) {
-        tick('\0'); // sin input, solo IA y física
-    }
-    return _jugador->getVida() > 0 && _jefe->getVida() == 0;
-}*/
 bool Bossfight::run() {
     std::cout << "\n=== Bossfight: Oozaru aparece! ===\n";
 
@@ -64,13 +55,7 @@ void Bossfight::procesarInput(char c) {
 }
 
 void Bossfight::procesarIA() {
-    _jefe->update();  // SIEMPRE se actualiza
-
-    if (_jefe->estaVulnerable()) return;  // Ya no bloquea el update
-
-    if (std::rand() % 20 == 0) {
-        _jefe->usarEspecial(_jugador);
-    }
+    ejecutarIAOozaru(_jefe, _jugador);
 }
 
 void Bossfight::actualizarEstado() {

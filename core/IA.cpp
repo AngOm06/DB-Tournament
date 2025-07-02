@@ -43,3 +43,12 @@ void ejecutarIA(Personaje* cpu, Personaje* jugador) {
         cpu->usarEspecial(jugador);        // ahora recibe objetivo, ver abajo
     }
 }
+void ejecutarIAOozaru(MonoGigante* jefe, Personaje* jugador) {
+    if (!jefe || !jugador || jefe->estaVulnerable()) return;
+
+    if (std::rand() % 20 == 0) {
+        jefe->usarEspecial(jugador);
+    }
+
+    jefe->update();
+}
