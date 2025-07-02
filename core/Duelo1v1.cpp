@@ -12,6 +12,13 @@ Duelo1v1::Duelo1v1(Personaje* jugador, Personaje* oponente)
 Duelo1v1::~Duelo1v1() {}
 
 bool Duelo1v1::run() {
+
+    _jugador->reiniciarStats();
+    _oponente->reiniciarStats();
+
+    _jugador->setPosicionX(40);
+    _oponente->setPosicionX(60);
+
     bool running = true;
     int tickIA = 0;
 

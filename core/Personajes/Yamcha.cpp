@@ -2,7 +2,7 @@
 #include <iostream>
 
 Yamcha::Yamcha()
-    : Personaje("Yamcha", 90, 30, 4, 5, 30)
+    : Personaje("Yamcha", 90, 4, 5, 30)
 {}
 
 void Yamcha::usarEspecial(Personaje* objetivo) {

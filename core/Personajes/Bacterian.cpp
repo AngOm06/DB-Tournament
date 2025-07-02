@@ -2,7 +2,7 @@
 #include <iostream>
 
 Bacterian::Bacterian()
-    : Personaje("Bacterian", 70, 25, 6, 7, 25)
+    : Personaje("Bacterian", 70, 6, 7, 25)
 {}
 
 void Bacterian::usarEspecial(Personaje* objetivo) {

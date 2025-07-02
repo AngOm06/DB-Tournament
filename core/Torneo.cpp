@@ -5,7 +5,10 @@ Torneo::Torneo(Personaje* jugador, const std::vector<Personaje*>& listaParticipa
     : _jugador(jugador),
     participantes(listaParticipantes),
     rondaActual(0)
-{}
+{
+    // Inserta al jugador al inicio del vector:
+    participantes.insert(participantes.begin(), _jugador);
+}
 
 void Torneo::prepararDuelos() {
     duelos.clear();

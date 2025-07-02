@@ -2,7 +2,7 @@
 #include <iostream>
 
 Goku::Goku()
-    : Personaje("Goku", /*vida*/100, /*kiIni*/50, /*velX*/3, /*danoBase*/4, /*kiMax*/50)
+    : Personaje("Goku", /*vida*/100, /*velX*/3, /*danoBase*/4, /*kiMax*/50)
 {}
 
 // Kamehameha: daño 2× base y aturde 1 frame al rival

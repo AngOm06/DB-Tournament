@@ -2,7 +2,7 @@
 #include <iostream>
 
 JackieChun::JackieChun()
-    : Personaje("JackieChun", 85, 40, 4, 6, 40)
+    : Personaje("JackieChun", 85, 4, 6, 40)
 {}
 
 void JackieChun::usarEspecial(Personaje* objetivo) {

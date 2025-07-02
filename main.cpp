@@ -51,7 +51,7 @@ int main() {
 
     // 6) Mostrar resultado final
     std::cout << "\n\n=== Resultado del Torneo ===\n";
-    std::cout << "¡Campeon: " << campeon->getNombre() << "!\n";
+    std::cout << "Campeon: " << campeon->getNombre() << "!\n";
 
     // 7) Limpiar memoria
     // - Jugador
