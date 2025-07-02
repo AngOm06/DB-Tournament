@@ -1,7 +1,7 @@
 #ifndef PERSONAJE_H
 #define PERSONAJE_H
 
-#include "Funciones.h"
+#include "Util/Funciones.h"
 #include <iostream>
 
 // Constantes de escenario y mecánicas
