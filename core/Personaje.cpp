@@ -2,11 +2,12 @@
 #include <algorithm>    // std::min, std::max
 
 // Constructor: clona nombre y configura atributos iniciales
-Personaje::Personaje(const char* nombre_, int vidaInicial, int kiInicial,
+Personaje::Personaje(const char* nombre_, int vidaInicial,
                      int velX, int danoBase_, int kiMaximo)
     : nombre(copiarTexto(nombre_)),
+    vidaMax(vidaInicial),
     vida(vidaInicial),
-    kiActual(kiInicial),
+    kiActual(0),
     kiMax(kiMaximo),
     posicionX(0),
     posicionY(0.0f),
@@ -127,4 +128,11 @@ void Personaje::update() {
     // Tras moverse, vuelve a IDLE
     if (estado == EstadoPersonaje::MOVIENDO)
         estado = EstadoPersonaje::IDLE;
+}
+
+void Personaje::reiniciarStats() {
+    vida        = vidaMax;
+    kiActual    = 0;
+    estado      = EstadoPersonaje::IDLE;
+    framesAccion = 0;
 }

@@ -2,14 +2,14 @@
 #include <iostream>
 
 Goku::Goku()
-    : Personaje("Goku", /*vida*/100, /*kiIni*/50, /*velX*/3, /*danoBase*/4, /*kiMax*/50)
+    : Personaje("Goku", /*vida*/100, /*velX*/3, /*danoBase*/4, /*kiMax*/50)
 {}
 
 // Kamehameha: daño 2× base y aturde 1 frame al rival
 void Goku::usarEspecial(Personaje* objetivo) {
     if (!objetivo || !objetivo->getVida()>0) return;
     if (estado != EstadoPersonaje::IDLE) {
-        std::cout << getNombre() << " está ocupado.\n";
+        std::cout << getNombre() << " esta ocupado.\n";
         return;
     }
     if (kiActual < 50) {

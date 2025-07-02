@@ -1,12 +1,12 @@
 #include "Krilin.h"
 
 Krilin::Krilin()
-    : Personaje("Krilin",/*vidaInicial=*/80,/*kiInicial=*/40,/*velX=*/5,/*danoBase=*/4,/*kiMaximo=*/40)
+    : Personaje("Krilin",/*vidaInicial=*/80,/*velX=*/5,/*danoBase=*/4,/*kiMaximo=*/40)
 {}
 
 void Krilin::usarEspecial(Personaje* objetivo) {
     if (!objetivo || objetivo->getVida() <= 0) {
-        std::cout << getNombre() << " no tiene objetivo válido.\n";
+        std::cout << getNombre() << " no tiene objetivo valido.\n";
         return;
     }
     if (kiActual < 40) {

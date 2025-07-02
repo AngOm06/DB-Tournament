@@ -2,7 +2,7 @@
 #include <iostream>
 
 Nam::Nam()
-    : Personaje("Nam", 75, 35, 5, 5, 35)
+    : Personaje("Nam", 75, 5, 5, 35)
 {}
 
 void Nam::usarEspecial(Personaje* objetivo) {

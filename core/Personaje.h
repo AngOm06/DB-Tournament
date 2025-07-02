@@ -29,11 +29,12 @@ enum class EstadoPersonaje {
 class Personaje {
 protected:
     char* nombre;           // Nombre en C-string dinámico
+    int vidaMax;            // Vida inicial del personaje
     int vida;               // Puntos de vida actuales
     int kiActual;           // Energía para ataques especiales
     int kiMax;              // Energía máxima para especiales
-    int posicionX;          // Posición horizontal (0..99)
-    float posicionY;        // Altura sobre el suelo
+    int posicionX;          // nueva: posición X donde reaparece
+    float posicionY;        // nueva: altura de aparición (normalmente 0)
     int velocidadX;         // Velocidad de desplazamiento horizontal
     float velocidadY;       // Velocidad vertical (para salto)
     int danoBase;           // Daño base de ataques normales
@@ -43,7 +44,7 @@ protected:
 
 public:
     // Constructor principal: clona nombre y configura stats
-    Personaje(const char* nombre_, int vidaInicial, int kiInicial,
+    Personaje(const char* nombre_, int vidaInicial,
               int velX, int danoBase, int kiMaximo);
 
     virtual ~Personaje();
@@ -60,6 +61,8 @@ public:
     int getDanoBase() const;
     float getPosicionY() const;
     EstadoPersonaje getEstado() const;
+    void reiniciarStats();
+    void setPosicionX(int x) { posicionX = x; }
 
     // Acciones básicas
     void agacharse();
