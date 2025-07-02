@@ -10,6 +10,7 @@ SOURCES += \
     core/Personajes/Bacterian.cpp \
     core/Personajes/Giran.cpp \
     core/Personajes/JackieChun.cpp \
+    core/Personajes/MonoGigante.cpp \
     core/Personajes/Nam.cpp \
     core/Personajes/Ranfan.cpp \
     core/Personajes/Yamcha.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
     core/Personajes/Goku.cpp\
     main.cpp
 HEADERS += \
+    core/Personajes/MonoGigante.h \
     core/Util/Funciones.h \
     core/Modos/Bossfight.h \
     core/Combate.h \

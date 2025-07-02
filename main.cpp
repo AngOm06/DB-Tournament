@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include <vector>
 #include <cstdlib>   // std::srand, std::rand
 #include <ctime>     // std::time
@@ -61,6 +61,37 @@ int main() {
         delete p;
     }
     oponentes.clear();
+
+    return 0;
+}
+*/
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+#include "Personajes/Goku.h"
+#include "Modos/Bossfight.h"
+#include "Personajes/MonoGigante.h"
+
+int main() {
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+
+    // Crear jugador (Goku) y jefe (Oozaru)
+    Personaje* jugador = new Goku();
+    MonoGigante* jefe = new MonoGigante();
+
+    // Iniciar bossfight
+    Bossfight boss(jugador, jefe);
+    bool victoria = boss.run();
+
+    std::cout << "\n\n=== Resultado Bossfight ===\n";
+    if (victoria) {
+        std::cout << "Victoria contra Oozaru\n";
+    } else {
+        std::cout << "Derrota ante el jefe\n";
+    }
+
+    delete jugador;
 
     return 0;
 }
