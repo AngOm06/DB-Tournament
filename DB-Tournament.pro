@@ -1,0 +1,44 @@
+QT -= gui
+
+CONFIG += c++17 console
+CONFIG -= app_bundle
+CONFIG += console
+TEMPLATE = app
+SOURCES += \
+    core/Modos/Bossfight.cpp \
+    core/Modos/Duelo1v1.cpp \
+    core/Personajes/Bacterian.cpp \
+    core/Personajes/Giran.cpp \
+    core/Personajes/JackieChun.cpp \
+    core/Personajes/MonoGigante.cpp \
+    core/Personajes/Nam.cpp \
+    core/Personajes/Ranfan.cpp \
+    core/Personajes/Yamcha.cpp \
+    core/Modos/Torneo.cpp \
+    core/Util/Funciones.cpp \
+    core/Util/Combate.cpp \
+    core/IA.cpp \
+    core/Personajes/Krilin.cpp \
+    core/Personaje.cpp \
+    core/Personajes/Goku.cpp\
+    main.cpp
+HEADERS += \
+    core/Personajes/MonoGigante.h \
+    core/Util/Funciones.h \
+    core/Modos/Bossfight.h \
+    core/Combate.h \
+    core/Modos/Duelo1v1.h \
+    core/Funciones.h \
+    core/IA.h \
+    core/Personajes/Bacterian.h \
+    core/Personajes/Giran.h \
+    core/Personajes/JackieChun.h \
+    core/Personajes/Krilin.h \
+    core/Personaje.h \
+    core/Personajes/Goku.h \
+    core/Personajes/Nam.h \
+    core/Personajes/Ranfan.h \
+    core/Personajes/Yamcha.h \
+    core/Modos/Torneo.h
+
+INCLUDEPATH += core
