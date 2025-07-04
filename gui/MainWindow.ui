@@ -124,9 +124,15 @@
        <rect>
         <x>20</x>
         <y>90</y>
-        <width>491</width>
-        <height>351</height>
+        <width>551</width>
+        <height>341</height>
        </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
       </property>
       <property name="widgetResizable">
        <bool>true</bool>
@@ -136,8 +142,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>489</width>
-         <height>349</height>
+         <width>549</width>
+         <height>339</height>
         </rect>
        </property>
        <widget class="QWidget" name="gridLayoutWidget">
@@ -145,19 +151,41 @@
          <rect>
           <x>10</x>
           <y>10</y>
-          <width>91</width>
-          <height>80</height>
+          <width>200</width>
+          <height>200</height>
          </rect>
         </property>
-        <layout class="QGridLayout" name="torneoGalleryLayout"/>
+        <layout class="QGridLayout" name="torneoGalleryLayout" rowstretch="0" columnstretch="0" rowminimumheight="0" columnminimumwidth="0">
+         <property name="sizeConstraint">
+          <enum>QLayout::SizeConstraint::SetMinimumSize</enum>
+         </property>
+         <property name="leftMargin">
+          <number>100</number>
+         </property>
+         <property name="topMargin">
+          <number>100</number>
+         </property>
+         <property name="rightMargin">
+          <number>20</number>
+         </property>
+         <property name="bottomMargin">
+          <number>100</number>
+         </property>
+         <property name="horizontalSpacing">
+          <number>100</number>
+         </property>
+         <property name="verticalSpacing">
+          <number>250</number>
+         </property>
+        </layout>
        </widget>
       </widget>
      </widget>
      <widget class="QLabel" name="labelName">
       <property name="geometry">
        <rect>
-        <x>540</x>
-        <y>100</y>
+        <x>610</x>
+        <y>90</y>
         <width>171</width>
         <height>41</height>
        </rect>
@@ -168,14 +196,14 @@
        </font>
       </property>
       <property name="text">
-       <string>TextLabel</string>
+       <string>Nombre</string>
       </property>
      </widget>
      <widget class="QLabel" name="labelVida">
       <property name="geometry">
        <rect>
-        <x>610</x>
-        <y>150</y>
+        <x>720</x>
+        <y>140</y>
         <width>131</width>
         <height>21</height>
        </rect>
@@ -186,14 +214,14 @@
        </font>
       </property>
       <property name="text">
-       <string>TextLabel</string>
+       <string>x</string>
       </property>
      </widget>
      <widget class="QLabel" name="labelAtaque">
       <property name="geometry">
        <rect>
-        <x>610</x>
-        <y>180</y>
+        <x>720</x>
+        <y>170</y>
         <width>111</width>
         <height>21</height>
        </rect>
@@ -204,14 +232,14 @@
        </font>
       </property>
       <property name="text">
-       <string>TextLabel</string>
+       <string>x</string>
       </property>
      </widget>
      <widget class="QLabel" name="labelKi">
       <property name="geometry">
        <rect>
-        <x>610</x>
-        <y>210</y>
+        <x>720</x>
+        <y>200</y>
         <width>121</width>
         <height>21</height>
        </rect>
@@ -222,14 +250,14 @@
        </font>
       </property>
       <property name="text">
-       <string>TextLabel</string>
+       <string>x</string>
       </property>
      </widget>
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>540</x>
-        <y>150</y>
+        <x>610</x>
+        <y>140</y>
         <width>71</width>
         <height>21</height>
        </rect>
@@ -246,8 +274,8 @@
      <widget class="QLabel" name="label_2">
       <property name="geometry">
        <rect>
-        <x>540</x>
-        <y>180</y>
+        <x>610</x>
+        <y>170</y>
         <width>71</width>
         <height>21</height>
        </rect>
@@ -264,10 +292,10 @@
      <widget class="QLabel" name="label_3">
       <property name="geometry">
        <rect>
-        <x>540</x>
-        <y>200</y>
+        <x>610</x>
+        <y>190</y>
         <width>41</width>
-        <height>33</height>
+        <height>41</height>
        </rect>
       </property>
       <property name="font">

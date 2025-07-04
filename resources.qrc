@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/portadas">
+        <file>assets/portadas/Giran.png</file>
+        <file>assets/portadas/Goku.png</file>
+        <file>assets/portadas/JackieChun.png</file>
+        <file>assets/portadas/Krilin.png</file>
+        <file>assets/portadas/Nam.png</file>
+        <file>assets/portadas/Yamcha.png</file>
+    </qresource>
+    <qresource prefix="/fondos">
+        <file>assets/fondos/fondo_menu.png</file>
+        <file>assets/fondos/fondo_combate.png</file>
+    </qresource>
+    <qresource prefix="/fonts">
+        <file>assets/fonts/Saiyan-sans.ttf</file>
+    </qresource>
+</RCC>

@@ -104,10 +104,27 @@ int main() {
     return 0;
 }*/
 #include <QApplication>
+#include <QFontDatabase>
+#include <QFile>
 #include "gui/MainWindow.h"
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
+
+    // 1) Fuente DB
+    int id = QFontDatabase::addApplicationFont(":/fonts/Saiyan-sans.ttf");
+    if (id >= 0) {
+        QString family = QFontDatabase::applicationFontFamilies(id).at(0);
+        QFont db(family, 14);            // tamaño base 14pt
+        app.setFont(db);                  // lo aplica globalmente
+    }
+
+    // 2) Opcional: aplicar QSS (colores, botones, etc)
+    /*QFile f(":/qss/styles.qss");
+    if (f.open(QFile::ReadOnly)) {
+        app.setStyleSheet(f.readAll());
+        f.close();
+    }*/
 
     MainWindow w;
     w.show();

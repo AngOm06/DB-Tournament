@@ -26,6 +26,25 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setStyleSheet(R"(
+    QMainWindow {
+    background-color: #121212;
+  }
+)");
+    ui->pageMenu->setStyleSheet(R"(
+  QWidget {
+    background-image: url(:/fondos/assets/fondos/fondo_menu.png);
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+)");
+    ui->pageSelectTorneo->setStyleSheet(R"(
+  QWidget {
+    background-image: url(:/fondos/assets/fondos/fondo_combate.png);
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+)");
     // Arrancamos en la página de menú
     ui->stackedWidget->setCurrentWidget(ui->pageMenu);
 
@@ -86,6 +105,15 @@ void MainWindow::setupTorneoGallery()
     const int cols = 4;
     int row = 0, col = 0;
 
+    // Ajustes de espaciado del grid
+    ui->torneoGalleryLayout->setContentsMargins(10,10,10,10);
+    ui->torneoGalleryLayout->setHorizontalSpacing(12);
+    ui->torneoGalleryLayout->setVerticalSpacing(12);
+    for (int c = 0; c < cols; ++c)
+        ui->torneoGalleryLayout->setColumnStretch(c, 1);
+    // dejamos un rowStretch al final para empujar si sobra espacio
+    ui->torneoGalleryLayout->setRowStretch((roster.size()+cols-1)/cols, 1);
+
     for (Personaje* p : roster) {
         // Crear celda
         QFrame* cell = new QFrame;
@@ -94,16 +122,26 @@ void MainWindow::setupTorneoGallery()
         cell->setCursor(Qt::PointingHandCursor);
         cell->installEventFilter(this);
 
+        // Que la celda pida un mínimo pero pueda crecer
+        cell->setMinimumSize(120, 140);
+        cell->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+
         // Layout vertical dentro de la celda
         QVBoxLayout* vl = new QVBoxLayout(cell);
         vl->setContentsMargins(4,4,4,4);
+        vl->setSpacing(6);
 
-        // Label para icono (aquí podrías usar QPixmap)
-        QLabel* icon = new QLabel(p->getNombre(), cell);
+        // Label para icono QPixmap
+        QPixmap img(QString(":/portadas/assets/portadas/%1.png").arg(p->getNombre()));
+        QLabel* icon = new QLabel(cell);
+        icon->setFixedSize(100, 100);            // tamaño fijo para la imagen
+        icon->setScaledContents(true);            // que el label haga la escala
+        icon->setPixmap(img);
         icon->setAlignment(Qt::AlignCenter);
-        vl->addWidget(icon);
+        icon->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        vl->addWidget(icon, 0, Qt::AlignHCenter);
 
-        // Label para nombre
+        // (Opcional) Label con nombre pequeñito
         QLabel* name = new QLabel(p->getNombre(), cell);
         name->setAlignment(Qt::AlignCenter);
         vl->addWidget(name);
@@ -126,6 +164,7 @@ void MainWindow::showStatsFor(Personaje* p)
     ui->labelAtaque->setText(QString::number(p->getDanoBase()));
     ui->labelKi->setText(QString::number(p->getVelocidadX()));
 }
+
 
 // -------------------------------------------------------------
 //   Slots de navegación
