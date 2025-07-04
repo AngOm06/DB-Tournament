@@ -53,41 +53,40 @@
        <string>TORNEO</string>
       </property>
      </widget>
-    </widget>
-    <widget class="QWidget" name="pageSelectDuelo">
-     <widget class="QPushButton" name="btnDuelo">
+     <widget class="QLabel" name="labelTitulo">
       <property name="geometry">
        <rect>
-        <x>310</x>
-        <y>480</y>
-        <width>161</width>
-        <height>61</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>DUELO</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnCancel">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
+        <x>90</x>
         <y>20</y>
-        <width>121</width>
-        <height>51</height>
+        <width>661</width>
+        <height>161</height>
        </rect>
       </property>
       <property name="text">
-       <string>VOLVER</string>
+       <string>DRAGON BALL</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelSubtitulo">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>80</y>
+        <width>661</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TOURNAMENT</string>
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="pageSelectTorneo">
-     <widget class="QPushButton" name="btnTorneo">
+    <widget class="QWidget" name="pageSelectDuelo"/>
+    <widget class="QWidget" name="pageSelectCharacter">
+     <widget class="QPushButton" name="btnInicio">
       <property name="geometry">
        <rect>
         <x>310</x>
-        <y>470</y>
+        <y>490</y>
         <width>161</width>
         <height>61</height>
        </rect>
@@ -101,7 +100,7 @@
        <string>INICIA</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnCancel_2">
+     <widget class="QPushButton" name="btnCancel">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -123,7 +122,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>90</y>
+        <y>120</y>
         <width>551</width>
         <height>341</height>
        </rect>
@@ -149,33 +148,33 @@
        <widget class="QWidget" name="gridLayoutWidget">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>200</width>
-          <height>200</height>
+          <x>0</x>
+          <y>0</y>
+          <width>111</width>
+          <height>131</height>
          </rect>
         </property>
-        <layout class="QGridLayout" name="torneoGalleryLayout" rowstretch="0" columnstretch="0" rowminimumheight="0" columnminimumwidth="0">
+        <layout class="QGridLayout" name="characterGalleryLayout" rowstretch="0" columnstretch="0" rowminimumheight="0" columnminimumwidth="0">
          <property name="sizeConstraint">
           <enum>QLayout::SizeConstraint::SetMinimumSize</enum>
          </property>
          <property name="leftMargin">
-          <number>100</number>
+          <number>20</number>
          </property>
          <property name="topMargin">
-          <number>100</number>
+          <number>20</number>
          </property>
          <property name="rightMargin">
           <number>20</number>
          </property>
          <property name="bottomMargin">
-          <number>100</number>
+          <number>20</number>
          </property>
          <property name="horizontalSpacing">
-          <number>100</number>
+          <number>10</number>
          </property>
          <property name="verticalSpacing">
-          <number>250</number>
+          <number>20</number>
          </property>
         </layout>
        </widget>
@@ -202,7 +201,7 @@
      <widget class="QLabel" name="labelVida">
       <property name="geometry">
        <rect>
-        <x>720</x>
+        <x>680</x>
         <y>140</y>
         <width>131</width>
         <height>21</height>
@@ -220,7 +219,7 @@
      <widget class="QLabel" name="labelAtaque">
       <property name="geometry">
        <rect>
-        <x>720</x>
+        <x>680</x>
         <y>170</y>
         <width>111</width>
         <height>21</height>
@@ -238,7 +237,7 @@
      <widget class="QLabel" name="labelKi">
       <property name="geometry">
        <rect>
-        <x>720</x>
+        <x>680</x>
         <y>200</y>
         <width>121</width>
         <height>21</height>
@@ -253,7 +252,7 @@
        <string>x</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="labelVidaa">
       <property name="geometry">
        <rect>
         <x>610</x>
@@ -271,7 +270,7 @@
        <string>Vida:</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_2">
+     <widget class="QLabel" name="labelAtaquee">
       <property name="geometry">
        <rect>
         <x>610</x>
@@ -289,7 +288,7 @@
        <string>Daño:</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_3">
+     <widget class="QLabel" name="labelKii">
       <property name="geometry">
        <rect>
         <x>610</x>
@@ -305,6 +304,24 @@
       </property>
       <property name="text">
        <string>Vel:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelTitle">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>79</y>
+        <width>491</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>ELIGE TU PERSONAJE</string>
       </property>
      </widget>
     </widget>

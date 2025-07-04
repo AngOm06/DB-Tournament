@@ -4,7 +4,7 @@
 #include "core/Modos/Duelo1v1.h"
 #include "core/Modos/Torneo.h"
 
-// Incluye aquí tus subclases
+// Subclases de personajes
 #include "core/Personajes/Goku.h"
 #include "core/Personajes/Krilin.h"
 #include "core/Personajes/Yamcha.h"
@@ -26,25 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setStyleSheet(R"(
-    QMainWindow {
-    background-color: #121212;
-  }
-)");
-    ui->pageMenu->setStyleSheet(R"(
-  QWidget {
-    background-image: url(:/fondos/assets/fondos/fondo_menu.png);
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-)");
-    ui->pageSelectTorneo->setStyleSheet(R"(
-  QWidget {
-    background-image: url(:/fondos/assets/fondos/fondo_combate.png);
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-)");
+
     // Arrancamos en la página de menú
     ui->stackedWidget->setCurrentWidget(ui->pageMenu);
 
@@ -67,56 +49,66 @@ MainWindow::~MainWindow()
 // -------------------------------------------------------------
 bool MainWindow::eventFilter(QObject* watched, QEvent* ev)
 {
-    if (ev->type() == QEvent::MouseButtonRelease) {
-        QMouseEvent* me = static_cast<QMouseEvent*>(ev);
+    if (ui->stackedWidget->currentWidget() == ui->pageSelectCharacter
+        && ev->type() == QEvent::MouseButtonRelease)
+    {
+        auto me = static_cast<QMouseEvent*>(ev);
         if (me->button() == Qt::LeftButton) {
-            if (auto cell = qobject_cast<QFrame*>(watched)) {
-                // Deselecciona celda anterior
-                if (selectedCell) {
-                    selectedCell->setStyleSheet("");
-                }
-                // Selecciona la nueva
+            QFrame* cell = qobject_cast<QFrame*>(watched);
+            if (cell) {
+                if (selectedCell) selectedCell->setStyleSheet("");
                 selectedCell = cell;
                 cell->setStyleSheet("border: 2px solid blue;");
 
-                // Recupera el personaje asociado
+                // Guardar personaje actual
                 void* vp = cell->property("personajePtr").value<void*>();
                 selectedCharacter = static_cast<Personaje*>(vp);
                 showStatsFor(selectedCharacter);
+                ui->btnInicio->setEnabled(selectedCharacter != nullptr);
+                ui->btnInicio->setEnabled(selectedCharacter != nullptr);
+
                 return true;
             }
         }
     }
+
     return QMainWindow::eventFilter(watched, ev);
 }
 
+
 // -------------------------------------------------------------
-//   Construye la galería de torneo
+//   Construye las galerias
 // -------------------------------------------------------------
-void MainWindow::setupTorneoGallery()
+void MainWindow::setupSelectionGallery()
 {
-    // 1) Limpiar cualquier widget previo
-    while (auto item = ui->torneoGalleryLayout->takeAt(0)) {
+    // Limpia la rejilla igual que antes…
+    auto& layout = ui->characterGalleryLayout;   // tu único GridLayout
+    while (auto item = layout->takeAt(0)) {
         if (auto w = item->widget()) w->deleteLater();
         delete item;
     }
 
-    // 2) Parámetros de grilla
+    // Cambia el título según modo
+    switch (currentMode) {
+    case SelectMode::Tournament:
+        ui->labelTitle->setText("Elige tu personaje para Torneo");
+        break;
+    case SelectMode::DuelPlayer:
+        ui->labelTitle->setText("Elige tu guerrero");
+        break;
+    case SelectMode::DuelOpponent:
+        ui->labelTitle->setText("Elige al oponente");
+        break;
+    default:
+        ui->labelTitle->setText("");
+    }
+
+    // Monta la rejilla
     const int cols = 4;
     int row = 0, col = 0;
-
-    // Ajustes de espaciado del grid
-    ui->torneoGalleryLayout->setContentsMargins(10,10,10,10);
-    ui->torneoGalleryLayout->setHorizontalSpacing(12);
-    ui->torneoGalleryLayout->setVerticalSpacing(12);
-    for (int c = 0; c < cols; ++c)
-        ui->torneoGalleryLayout->setColumnStretch(c, 1);
-    // dejamos un rowStretch al final para empujar si sobra espacio
-    ui->torneoGalleryLayout->setRowStretch((roster.size()+cols-1)/cols, 1);
-
     for (Personaje* p : roster) {
-        // Crear celda
         QFrame* cell = new QFrame;
+
         cell->setFrameShape(QFrame::StyledPanel);
         cell->setProperty("personajePtr", QVariant::fromValue<void*>(p));
         cell->setCursor(Qt::PointingHandCursor);
@@ -146,15 +138,21 @@ void MainWindow::setupTorneoGallery()
         name->setAlignment(Qt::AlignCenter);
         vl->addWidget(name);
 
-        // Añadir celda al grid
-        ui->torneoGalleryLayout->addWidget(cell, row, col);
 
-        if (++col == cols) { col = 0; ++row; }
+        if (currentMode == SelectMode::DuelOpponent && p == firstPick) {
+            cell->setEnabled(false);
+            cell->setStyleSheet("opacity: 0.4;");
+        }
+        layout->addWidget(cell, row, col);
+        if (++col == cols) {
+            col = 0; ++row;
+        }
     }
 }
 
+
 // -------------------------------------------------------------
-//   Muestra barra de stats para el personaje seleccionado
+//   Muestra stats
 // -------------------------------------------------------------
 void MainWindow::showStatsFor(Personaje* p)
 {
@@ -165,54 +163,23 @@ void MainWindow::showStatsFor(Personaje* p)
     ui->labelKi->setText(QString::number(p->getVelocidadX()));
 }
 
-
 // -------------------------------------------------------------
 //   Slots de navegación
 // -------------------------------------------------------------
 void MainWindow::on_pushButtonTorneo_clicked()
 {
-    selectedCell      = nullptr;
-    selectedCharacter = nullptr;
-    setupTorneoGallery();
-    ui->btnTorneo->setEnabled(false);
-    ui->stackedWidget->setCurrentWidget(ui->pageSelectTorneo);
-}
-
-void MainWindow::on_btnCancel_2_clicked()
-{
-    ui->stackedWidget->setCurrentWidget(ui->pageMenu);
-}
-
-void MainWindow::on_btnTorneo_clicked()
-{
-    if (!selectedCharacter) return;  // no hay selección
-
-    // Clonar jugador
-    Personaje* jugador = selectedCharacter->clone();
-
-    // Clonar oponentes
-    std::vector<Personaje*> oponentes;
-    for (Personaje* p : roster) {
-        if (p != selectedCharacter) {
-            oponentes.push_back(p->clone());
-        }
-    }
-
-    // Ejecutar torneo
-    Torneo torneo(jugador, oponentes);
-    torneo.run();
-
-    // Limpiar
-    delete jugador;
-    qDeleteAll(oponentes);
-
-    ui->stackedWidget->setCurrentWidget(ui->pageMenu);
+    currentMode = SelectMode::Tournament;
+    firstPick = nullptr;
+    setupSelectionGallery();
+    ui->stackedWidget->setCurrentWidget(ui->pageSelectCharacter);
 }
 
 void MainWindow::on_pushButtonDuelo_clicked()
 {
-    // Aquí montarías la galería de duelo (sólo placeholder de lista)
-    ui->stackedWidget->setCurrentWidget(ui->pageSelectDuelo);
+    currentMode = SelectMode::DuelPlayer;
+    firstPick   = nullptr;
+    setupSelectionGallery();
+    ui->stackedWidget->setCurrentWidget(ui->pageSelectCharacter);
 }
 
 void MainWindow::on_btnCancel_clicked()
@@ -220,9 +187,58 @@ void MainWindow::on_btnCancel_clicked()
     ui->stackedWidget->setCurrentWidget(ui->pageMenu);
 }
 
-void MainWindow::on_btnDuelo_clicked()
+void MainWindow::on_btnInicio_clicked()
 {
-    // Por implementar: clonación de p1/p2 y llamada a Duelo1v1
-    // Igual patrón a torneo: validar selectedCharacter, clon, run, clean…
+    if (!selectedCharacter) return;
+
+    switch (currentMode) {
+    case SelectMode::Tournament: {
+        // Ejecutar torneo
+        Personaje* jugador = selectedCharacter->clone();
+        std::vector<Personaje*> oponentes;
+        for (Personaje* p : roster)
+            if (p != selectedCharacter)
+                oponentes.push_back(p->clone());
+
+        Torneo torneo(jugador, oponentes);
+        torneo.run();
+
+        delete jugador;
+        qDeleteAll(oponentes);
+        break;
+    }
+
+    case SelectMode::DuelPlayer: {
+        // Guardar selección de jugador 1 y pasar a elegir oponente
+        firstPick = selectedCharacter;
+        selectedCharacter = nullptr;
+        selectedCell = nullptr;
+        currentMode = SelectMode::DuelOpponent;
+        setupSelectionGallery();
+        return; // no volvemos al menú todavía
+    }
+
+    case SelectMode::DuelOpponent: {
+        if (!firstPick || !selectedCharacter) return;
+
+        Personaje* c1 = firstPick->clone();
+        Personaje* c2 = selectedCharacter->clone();
+
+        Duelo1v1 duelo(c1, c2);
+        duelo.run();
+
+        delete c1;
+        delete c2;
+        break;
+    }
+
+    default: break;
+    }
+
+    // Volver al menú y limpiar selección
+    firstPick = nullptr;
+    selectedCharacter = nullptr;
+    selectedCell = nullptr;
+    currentMode = SelectMode::Tournament;
     ui->stackedWidget->setCurrentWidget(ui->pageMenu);
 }

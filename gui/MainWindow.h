@@ -3,8 +3,14 @@
 
 #include <QMainWindow>
 #include <vector>
-#include "core/Personaje.h"   // Asegúrate de que Personaje declare virtual Personaje* clone() const;
+#include "core/Personaje.h"
 
+enum class SelectMode {
+    None,
+    Tournament,
+    DuelPlayer,
+    DuelOpponent
+};
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -27,13 +33,9 @@ private slots:
     void on_pushButtonDuelo_clicked();
     void on_pushButtonTorneo_clicked();
 
-    // Selección Torneo
-    void on_btnCancel_2_clicked();
-    void on_btnTorneo_clicked();
-
-    // Selección Duelo 1v1
+    // Pagina Selección
+    void on_btnInicio_clicked();
     void on_btnCancel_clicked();
-    void on_btnDuelo_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -46,9 +48,11 @@ private:
     Personaje*      selectedCharacter = nullptr;
 
     // Métodos auxiliares
-    void setupTorneoGallery();
-    void setupDueloGallery();
+    void setupSelectionGallery();
     void showStatsFor(Personaje* p);
+
+    SelectMode currentMode = SelectMode::None;
+    Personaje* firstPick   = nullptr;  // para Duelo
 };
 
 #endif // MAINWINDOW_H

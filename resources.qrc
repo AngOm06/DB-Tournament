@@ -6,6 +6,8 @@
         <file>assets/portadas/Krilin.png</file>
         <file>assets/portadas/Nam.png</file>
         <file>assets/portadas/Yamcha.png</file>
+        <file>assets/portadas/Bacterian.png</file>
+        <file>assets/portadas/Ranfan.png</file>
     </qresource>
     <qresource prefix="/fondos">
         <file>assets/fondos/fondo_menu.png</file>
@@ -13,5 +15,8 @@
     </qresource>
     <qresource prefix="/fonts">
         <file>assets/fonts/Saiyan-sans.ttf</file>
+    </qresource>
+    <qresource prefix="/qss">
+        <file>assets/qss/styles.qss</file>
     </qresource>
 </RCC>
