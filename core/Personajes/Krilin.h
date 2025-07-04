@@ -11,6 +11,9 @@ public:
 
     // Ataque especial "Taiyoken" que aturde al rival y causa daño moderado
     void usarEspecial(Personaje* objetivo) override;
+    Personaje* clone() const override {
+        return new Krilin(*this);
+    }
 };
 
 #endif // KRILIN_H

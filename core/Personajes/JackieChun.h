@@ -8,6 +8,9 @@ public:
     JackieChun();
     ~JackieChun() override = default;
     void usarEspecial(Personaje* objetivo) override;
+    Personaje* clone() const override {
+        return new JackieChun(*this);
+    }
 };
 
 #endif // JACKIECHUN_H

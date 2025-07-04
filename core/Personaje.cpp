@@ -40,6 +40,7 @@ void Personaje::recuperarKi(int cantidad) {
 // Getters
 const char*       Personaje::getNombre()   const { return nombre; }
 int               Personaje::getVida()     const { return vida; }
+int               Personaje::getVelocidadX()     const { return velocidadX; }
 int               Personaje::getKi()       const { return kiActual; }
 int               Personaje::getPosicionX()const { return posicionX; }
 float             Personaje::getPosicionY()const { return posicionY; }

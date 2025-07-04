@@ -8,6 +8,9 @@ public:
     Nam();
     ~Nam() override = default;
     void usarEspecial(Personaje* objetivo) override;
+    Personaje* clone() const override {
+        return new Nam(*this);
+    }
 };
 
 #endif // NAM_H

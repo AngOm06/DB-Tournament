@@ -8,6 +8,9 @@ public:
     Bacterian();
     ~Bacterian() override = default;
     void usarEspecial(Personaje* objetivo) override;
+    Personaje* clone() const override {
+        return new Bacterian(*this);
+    }
 };
 
 #endif // BACTERIAN_H

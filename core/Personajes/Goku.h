@@ -12,6 +12,9 @@ public:
 
     // Sobrescribe los métodos puros de Personaje
     void usarEspecial(Personaje* objetivo) override;
+    Personaje* clone() const override {
+        return new Goku(*this);
+    }
 };
 
 #endif // GOKU_H

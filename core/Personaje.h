@@ -58,6 +58,7 @@ public:
     int getVida() const;
     int getKi() const;
     int getPosicionX() const;
+    int getVelocidadX() const;
     int getDanoBase() const;
     float getPosicionY() const;
     EstadoPersonaje getEstado() const;
@@ -82,5 +83,7 @@ public:
     virtual void update();
     // Cambia el estado y fija duración en frames
     void cambiarEstado(EstadoPersonaje nuevoEstado, int duracionFrames);
+    virtual Personaje* clone() const = 0;
+
 };
 #endif // PERSONAJE_H

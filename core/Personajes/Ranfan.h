@@ -8,6 +8,9 @@ public:
     Ranfan();
     ~Ranfan() override = default;
     void usarEspecial(Personaje* objetivo) override;
+    Personaje* clone() const override {
+        return new Ranfan(*this);
+    }
 };
 
 #endif // RANFAN_H

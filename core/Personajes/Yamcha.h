@@ -8,6 +8,9 @@ public:
     Yamcha();
     ~Yamcha() override = default;
     void usarEspecial(Personaje* objetivo) override;
+    Personaje* clone() const override {
+        return new Yamcha(*this);
+    }
 };
 
 #endif // YAMCHA_H
