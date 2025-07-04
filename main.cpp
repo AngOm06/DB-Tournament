@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include <vector>
 #include <cstdlib>
 #include <ctime>
@@ -102,4 +102,16 @@ int main() {
     }
 
     return 0;
+}*/
+#include <QApplication>
+#include "gui/MainWindow.h"
+
+int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
+
+    MainWindow w;
+    w.show();
+
+    return app.exec();
 }
+

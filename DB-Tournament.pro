@@ -1,10 +1,11 @@
-QT -= gui
+QT       += core gui widgets
+CONFIG   += c++17
+TARGET    = DB-Tournament
+TEMPLATE  = app
 
-CONFIG += c++17 console
-CONFIG -= app_bundle
-CONFIG += console
-TEMPLATE = app
+INCLUDEPATH = core
 SOURCES += \
+    gui/MainWindow.cpp \
     core/Modos/Bossfight.cpp \
     core/Modos/Duelo1v1.cpp \
     core/Personajes/Bacterian.cpp \
@@ -23,6 +24,7 @@ SOURCES += \
     core/Personajes/Goku.cpp\
     main.cpp
 HEADERS += \
+    gui/MainWindow.h \
     core/Personajes/MonoGigante.h \
     core/Util/Funciones.h \
     core/Modos/Bossfight.h \
@@ -41,4 +43,5 @@ HEADERS += \
     core/Personajes/Yamcha.h \
     core/Modos/Torneo.h
 
-INCLUDEPATH += core
+FORMS += \
+    gui/MainWindow.ui
