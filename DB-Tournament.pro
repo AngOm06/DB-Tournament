@@ -30,7 +30,7 @@ HEADERS += \
     core/Personajes/MonoGigante.h \
     core/Util/Funciones.h \
     core/Modos/Bossfight.h \
-    core/Combate.h \
+    core/Util/Combate.h \
     core/Modos/Duelo1v1.h \
     core/Funciones.h \
     core/IA.h \

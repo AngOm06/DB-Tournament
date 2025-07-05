@@ -154,33 +154,53 @@ void CombateWidget::keyReleaseEvent(QKeyEvent* event) {
 }
 
 void CombateWidget::updateFrame() {
-    bool vivo = duelo->run();
+    duelo->run();
     actualizarHUD();
-    if (!vivo) close();
+    if (duelo->haTerminado()) {
+        timer->stop();
+        qDebug() << (duelo->ganoJugador() ? "¡Ganó el jugador!"
+                                          : "¡Ganó el oponente!");
+        close();  // o emitir señal para volver al menú
+        return;
+    }
     update();
 }
 
 void CombateWidget::paintEvent(QPaintEvent*) {
     QPainter painter(this);
+
+    // Fondo
     QPixmap fondo(":/fondos/assets/fondos/fondo_combate.png");
     if (!fondo.isNull()) {
-        painter.drawPixmap(rect(), fondo); // Escala la imagen al tamaño del widget
+        painter.drawPixmap(rect(), fondo);
     } else {
-        painter.fillRect(rect(), Qt::black); // Fallback por si no carga
-    }
-    if (!spriteJugador.isNull()) {
-        painter.drawPixmap(xJugador,
-                           yBase - spriteJugador.height(),
-                           spriteJugador);
+        painter.fillRect(rect(), Qt::black);
     }
 
-    // Dibuja el sprite del oponente
-    if (!spriteOponente.isNull()) {
-        painter.drawPixmap(xOponente,
-                           yBase - spriteOponente.height(),
-                           spriteOponente);
-    }
+    // Base del suelo en pantalla (ajustala según necesites)
+    int yBase = height() - 30;
+
+    // Posición lógica de los personajes
+    const int escalaX = 8; // ajusta este valor hasta que se vea bien
+    int xJugador = _jugador->getPosicionX() * escalaX;
+    int xOponente = _oponente->getPosicionX() * escalaX;
+    int yJugador = _jugador->getPosicionY(); // si no existe, usa 0
+    int yOponente = _oponente->getPosicionY();
+
+    // Cargar sprites estáticos (más adelante vendrán animaciones)
+    QString nombreJugador = _jugador->getNombre();
+    QString nombreOponente = _oponente->getNombre();
+
+    QPixmap spriteJugador(QString(":/sprites/assets/sprites/%1/idle_0.png").arg(nombreJugador));
+    QPixmap spriteOponente(QString(":/sprites/assets/sprites/%1/idle_0.png").arg(nombreOponente));
+
+    QPixmap spriteEscaladoJugador = spriteJugador.scaled(140, 140, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    QPixmap spriteEscaladoOponente = spriteOponente.scaled(140, 140, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+    painter.drawPixmap(xJugador, yBase - yJugador - spriteEscaladoJugador.height(), spriteEscaladoJugador);
+    painter.drawPixmap(xOponente, yBase - yOponente - spriteEscaladoOponente.height(), spriteEscaladoOponente);
 }
+
 
 void CombateWidget::actualizarHUD() {
     if (!_jugador || !_oponente) return;

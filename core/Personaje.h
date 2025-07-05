@@ -7,7 +7,8 @@
 // Constantes de escenario y mecánicas
 static constexpr int MAX_X = 99;
 static constexpr int MIN_X = 0;
-static constexpr int ALCANCE_ATAQUE = 5;
+static constexpr int ALCANCE_ATAQUE = 15;
+static constexpr int ALCANCE_ESPECIAL = 80;
 static constexpr int FRAMES_ATACAR = 2;
 static constexpr int FRAMES_ATAQUE_BAJO = 2;
 static constexpr int FRAMES_DEFENDER = 2;

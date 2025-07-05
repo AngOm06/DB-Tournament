@@ -59,18 +59,18 @@ void Personaje::levantarse() {
         estado = EstadoPersonaje::IDLE;
 }
 void Personaje::moverIzquierda() {
-    if (estado == EstadoPersonaje::IDLE) {
-        // posX nunca baja de MIN_X
-        posicionX = max(MIN_X, posicionX - velocidadX);
-        estado = EstadoPersonaje::MOVIENDO;
+    if (estado != EstadoPersonaje::AGACHADO && estado != EstadoPersonaje::ATACANDO) {
+        posicionX = std::max(MIN_X, posicionX - velocidadX);
+        if (estado != EstadoPersonaje::SALTANDO)
+            estado = EstadoPersonaje::MOVIENDO;
     }
 }
 
 void Personaje::moverDerecha() {
-    if (estado == EstadoPersonaje::IDLE) {
-        // posX nunca sube de MAX_X
-        posicionX = min(MAX_X, posicionX + velocidadX);
-        estado = EstadoPersonaje::MOVIENDO;
+    if (estado != EstadoPersonaje::AGACHADO && estado != EstadoPersonaje::ATACANDO) {
+        posicionX = std::min(MAX_X, posicionX + velocidadX);
+        if (estado != EstadoPersonaje::SALTANDO)
+            estado = EstadoPersonaje::MOVIENDO;
     }
 }
 void Personaje::detenerMovimiento() {
@@ -81,7 +81,7 @@ void Personaje::detenerMovimiento() {
 // Salto con física simple
 void Personaje::saltar() {
     if (estado == EstadoPersonaje::IDLE && posicionY == 0.0f) {
-        velocidadY = /* valor inicial de salto, p.ej. */ 10.0f;
+        velocidadY = 15.0f;
         estado = EstadoPersonaje::SALTANDO;
     }
 }

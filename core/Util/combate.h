@@ -2,10 +2,11 @@
 #define COMBATE_H
 
 #include "Personaje.h"
+#include <cmath>
 
-// Procesa la colisión de un atacante sobre un defensor.
-// Si están lo bastante cerca (≤ ALCANCE_ATAQUE) y el atacante está
-// en estado ATACANDO o ATACANDO_BAJO, aplica daño al defensor.
+static constexpr int ANCHO_PERSONAJE  = 10;
+
 void procesarColision(Personaje* atacante, Personaje* defensor);
+bool puedeMover(Personaje* p, Personaje* rival, bool dir);
 
 #endif // COMBATE_H

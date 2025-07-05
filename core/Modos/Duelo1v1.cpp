@@ -18,7 +18,7 @@ bool Duelo1v1::run()
     procesarInput(_ultimoInput);
     _ultimoInput = '\0';
 
-    if (++_tickIA >= 10) {
+    if (++_tickIA >= 5) {
         _tickIA = 0;
         procesarIA();
     }
@@ -30,8 +30,14 @@ bool Duelo1v1::run()
 
 void Duelo1v1::procesarInput(char c) {
     switch (c) {
-    case 'a': _jugador->moverIzquierda();  break;
-    case 'd': _jugador->moverDerecha();    break;
+    case 'a':
+        if (puedeMover(_jugador, _oponente, false))
+            _jugador->moverIzquierda();
+        break;
+    case 'd':
+        if (puedeMover(_jugador, _oponente, true))
+            _jugador->moverDerecha();
+        break;
     case 'w': _jugador->saltar();          break;
     case 's': _jugador->agacharse();       break;
     case 'j': _jugador->atacar();          break;
