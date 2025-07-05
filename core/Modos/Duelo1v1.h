@@ -2,29 +2,26 @@
 #define DUELO1V1_H
 
 #include "Personaje.h"
+#include <Qt>
 
 class Duelo1v1 {
 private:
     Personaje* _jugador;
     Personaje* _oponente;
 
-    // Procesa la entrada del jugador (mover, salto, ataque, etc.)
-    void procesarEntrada();
-
-    // Ejecuta la IA del oponente
+    void procesarInput(char c);
     void procesarIA();
-
-    // Actualiza física, estados y colisiones
     void actualizarFrame();
+
+    int   _tickIA       = 0;
 public:
-    // Recibe dos punteros a Personaje (jugador y oponente IA)
     Duelo1v1(Personaje* jugador, Personaje* oponente);
     ~Duelo1v1();
 
-    // Lanza el loop de combate; devuelve true si gana el jugador
     bool run();
     Personaje* getJugador()  const { return _jugador; }
     Personaje* getOponente() const { return _oponente; }
+    char  _ultimoInput = '\0';
 };
 
 #endif // DUELO1V1_H

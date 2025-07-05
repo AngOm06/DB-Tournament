@@ -57,6 +57,8 @@ public:
     const char* getNombre() const;
     int getVida() const;
     int getKi() const;
+    int getVidaMax() const;
+    int getKiMax() const;
     int getPosicionX() const;
     int getVelocidadX() const;
     int getDanoBase() const;

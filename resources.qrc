@@ -19,4 +19,8 @@
     <qresource prefix="/qss">
         <file>assets/qss/styles.qss</file>
     </qresource>
+    <qresource prefix="/sprites">
+        <file>assets/sprites/Goku/idle_0.png</file>
+        <file>assets/sprites/JackieChun/idle_0.png</file>
+    </qresource>
 </RCC>

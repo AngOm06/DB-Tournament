@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
+#include "gui/CombateWidget.h"
 
 #include "core/Modos/Duelo1v1.h"
 #include "core/Modos/Torneo.h"
@@ -224,11 +225,9 @@ void MainWindow::on_btnInicio_clicked()
         Personaje* c1 = firstPick->clone();
         Personaje* c2 = selectedCharacter->clone();
 
-        Duelo1v1 duelo(c1, c2);
-        duelo.run();
+        CombateWidget* cw = new CombateWidget(c1, c2);
+        cw->show();
 
-        delete c1;
-        delete c2;
         break;
     }
 

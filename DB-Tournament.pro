@@ -5,6 +5,7 @@ TEMPLATE  = app
 
 INCLUDEPATH = core
 SOURCES += \
+    gui/CombateWidget.cpp \
     gui/MainWindow.cpp \
     core/Modos/Bossfight.cpp \
     core/Modos/Duelo1v1.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
     core/Personajes/Goku.cpp\
     main.cpp
 HEADERS += \
+    gui/CombateWidget.h \
     gui/MainWindow.h \
     core/Personajes/MonoGigante.h \
     core/Util/Funciones.h \
@@ -44,6 +46,7 @@ HEADERS += \
     core/Modos/Torneo.h
 
 FORMS += \
+    gui/CombateWidget.ui \
     gui/MainWindow.ui
 
 RESOURCES += \
