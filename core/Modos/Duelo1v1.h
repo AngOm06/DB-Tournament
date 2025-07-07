@@ -2,26 +2,26 @@
 #define DUELO1V1_H
 
 #include "Personaje.h"
-#include <Qt>
+#include <QSet>
 
 class Duelo1v1 {
 private:
     Personaje* _jugador;
     Personaje* _oponente;
+    bool _jugadorYaGolpeó = false;
+    bool _oponenteYaGolpeó = false;
+    int _tickIA = 0;
 
-    void procesarInput(char c);
-    void procesarIA();
-    void actualizarFrame();
-
-    int   _tickIA       = 0;
 public:
     Duelo1v1(Personaje* jugador, Personaje* oponente);
     ~Duelo1v1();
 
-    bool run();
+    void procesarIA();
+    void actualizarFrame();
+    void procesarMultiEntrada(const QSet<int>& teclas);
+
     Personaje* getJugador()  const { return _jugador; }
     Personaje* getOponente() const { return _oponente; }
-    char  _ultimoInput = '\0';
     bool haTerminado() const {
         return _jugador->getVida() <= 0 || _oponente->getVida() <= 0;
     }

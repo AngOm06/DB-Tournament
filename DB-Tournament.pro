@@ -3,9 +3,10 @@ CONFIG   += c++17
 TARGET    = DB-Tournament
 TEMPLATE  = app
 
-INCLUDEPATH = core
+INCLUDEPATH += core gui
 SOURCES += \
     gui/CombateWidget.cpp \
+    gui/CountDownWidget.cpp \
     gui/MainWindow.cpp \
     core/Modos/Bossfight.cpp \
     core/Modos/Duelo1v1.cpp \
@@ -23,9 +24,11 @@ SOURCES += \
     core/Personajes/Krilin.cpp \
     core/Personaje.cpp \
     core/Personajes/Goku.cpp\
+    gui/ResultadoWidget.cpp \
     main.cpp
 HEADERS += \
     gui/CombateWidget.h \
+    gui/CountDownWidget.h \
     gui/MainWindow.h \
     core/Personajes/MonoGigante.h \
     core/Util/Funciones.h \
@@ -43,7 +46,8 @@ HEADERS += \
     core/Personajes/Nam.h \
     core/Personajes/Ranfan.h \
     core/Personajes/Yamcha.h \
-    core/Modos/Torneo.h
+    core/Modos/Torneo.h \
+    gui/ResultadoWidget.h
 
 FORMS += \
     gui/CombateWidget.ui \

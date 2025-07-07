@@ -25,8 +25,7 @@ Personaje::~Personaje() {
 }
 
 // Recibe daño, teniendo en cuenta estado de agachado o defendiendo
-void Personaje::recibirDanio(int cantidad) {
-    if (estado == EstadoPersonaje::AGACHADO) return;           // esquiva
+void Personaje::recibirDanio(int cantidad) {     // esquiva
     int danio = cantidad;
     if (estado == EstadoPersonaje::DEFENDIENDO) danio /= 2;    // mitiga
     vida = std::max(0, vida - danio);
@@ -50,16 +49,8 @@ int               Personaje::getDanoBase() const { return danoBase; }
 EstadoPersonaje   Personaje::getEstado()   const { return estado; }
 
 // Acciones de movimiento y postura
-void Personaje::agacharse() {
-    if (estado == EstadoPersonaje::IDLE)
-        estado = EstadoPersonaje::AGACHADO;
-}
-void Personaje::levantarse() {
-    if (estado == EstadoPersonaje::AGACHADO)
-        estado = EstadoPersonaje::IDLE;
-}
 void Personaje::moverIzquierda() {
-    if (estado != EstadoPersonaje::AGACHADO && estado != EstadoPersonaje::ATACANDO) {
+    if (estado != EstadoPersonaje::ATACANDO) {
         posicionX = std::max(MIN_X, posicionX - velocidadX);
         if (estado != EstadoPersonaje::SALTANDO)
             estado = EstadoPersonaje::MOVIENDO;
@@ -67,7 +58,7 @@ void Personaje::moverIzquierda() {
 }
 
 void Personaje::moverDerecha() {
-    if (estado != EstadoPersonaje::AGACHADO && estado != EstadoPersonaje::ATACANDO) {
+    if (estado != EstadoPersonaje::ATACANDO) {
         posicionX = std::min(MAX_X, posicionX + velocidadX);
         if (estado != EstadoPersonaje::SALTANDO)
             estado = EstadoPersonaje::MOVIENDO;
@@ -80,8 +71,10 @@ void Personaje::detenerMovimiento() {
 
 // Salto con física simple
 void Personaje::saltar() {
-    if (estado == EstadoPersonaje::IDLE && posicionY == 0.0f) {
-        velocidadY = 15.0f;
+    // Permitir salto tanto si está IDLE como MOVIENDO
+    if ((estado == EstadoPersonaje::IDLE || estado == EstadoPersonaje::MOVIENDO)
+        && posicionY == 0.0f) {
+        velocidadY = 20.0f;
         estado = EstadoPersonaje::SALTANDO;
     }
 }
@@ -90,12 +83,6 @@ void Personaje::saltar() {
 void Personaje::atacar() {
     if (estado == EstadoPersonaje::IDLE)
         cambiarEstado(EstadoPersonaje::ATACANDO, FRAMES_ATACAR);
-    else if (estado == EstadoPersonaje::AGACHADO)
-        atacarBajo();
-}
-void Personaje::atacarBajo() {
-    if (estado == EstadoPersonaje::IDLE)
-        cambiarEstado(EstadoPersonaje::ATACANDO_BAJO, FRAMES_ATAQUE_BAJO);
 }
 void Personaje::defender() {
     if (estado == EstadoPersonaje::IDLE)

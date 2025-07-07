@@ -8,52 +8,10 @@ Duelo1v1::Duelo1v1(Personaje* jugador, Personaje* oponente)
     _jugador->reiniciarStats();
     _oponente->reiniciarStats();
     _jugador->setPosicionX(40);
-    _oponente->setPosicionX(60);
+    _oponente->setPosicionX(110);
 }
 
 Duelo1v1::~Duelo1v1() {}
-
-bool Duelo1v1::run()
-{
-    procesarInput(_ultimoInput);
-    _ultimoInput = '\0';
-
-    if (++_tickIA >= 5) {
-        _tickIA = 0;
-        procesarIA();
-    }
-
-    actualizarFrame();
-
-    return _jugador->getVida() > 0;
-}
-
-void Duelo1v1::procesarInput(char c) {
-    switch (c) {
-    case 'a':
-        if (puedeMover(_jugador, _oponente, false))
-            _jugador->moverIzquierda();
-        break;
-    case 'd':
-        if (puedeMover(_jugador, _oponente, true))
-            _jugador->moverDerecha();
-        break;
-    case 'w': _jugador->saltar();          break;
-    case 's': _jugador->agacharse();       break;
-    case 'j': _jugador->atacar();          break;
-    case 'k': _jugador->defender();        break;
-    case 'l': _jugador->usarEspecial(_oponente); break;
-    case 'q':
-        _jugador->cambiarEstado(EstadoPersonaje::IDLE, 0);
-        _oponente ->cambiarEstado(EstadoPersonaje::IDLE, 0);
-        _jugador->recibirDanio(_jugador->getVida());
-        break;
-    default:
-        if (_jugador->getEstado() == EstadoPersonaje::AGACHADO)
-            _jugador->levantarse();
-        break;
-    }
-}
 
 void Duelo1v1::procesarIA() {
     ejecutarIA(_oponente, _jugador);
@@ -62,6 +20,38 @@ void Duelo1v1::procesarIA() {
 void Duelo1v1::actualizarFrame() {
     _jugador->update();
     _oponente->update();
-    procesarColision(_jugador, _oponente);
-    procesarColision(_oponente, _jugador);
+    procesarColision(_jugador, _oponente, _jugadorYaGolpeó);
+    procesarColision(_oponente, _jugador, _oponenteYaGolpeó);
+    if (_jugador->getEstado() != EstadoPersonaje::ATACANDO)
+    {
+        _jugadorYaGolpeó = false;
+    }
+    if (_oponente->getEstado() != EstadoPersonaje::ATACANDO)
+    {
+        _oponenteYaGolpeó = false;
+    }
+}
+
+
+void Duelo1v1::procesarMultiEntrada(const QSet<int>& teclas) {
+    // 1) Salto al presionar W (si está en el suelo)
+    if (teclas.contains(Qt::Key_W) && _jugador->getPosicionY() == 0.0f) {
+        _jugador->saltar();
+    }
+    // 2) Movimiento lateral si no hay bloqueo
+    if (teclas.contains(Qt::Key_A) && puedeMover(_jugador, _oponente, false)) {
+        _jugador->moverIzquierda();
+    }
+    if (teclas.contains(Qt::Key_D) && puedeMover(_jugador, _oponente, true)) {
+        _jugador->moverDerecha();
+    }
+    // 3) Acciones de combate
+    if (teclas.contains(Qt::Key_J)) _jugador->atacar();
+    if (teclas.contains(Qt::Key_K)) _jugador->defender();
+    if (teclas.contains(Qt::Key_L)) _jugador->usarEspecial(_oponente);
+    // 4) Salida rápida (Key Q hace que el jugador pierda)
+    if (teclas.contains(Qt::Key_Q)) {
+        _jugador->cambiarEstado(EstadoPersonaje::IDLE, 0);
+        _jugador->recibirDanio(_jugador->getVida());
+    }
 }

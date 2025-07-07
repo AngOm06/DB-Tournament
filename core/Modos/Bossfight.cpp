@@ -43,13 +43,9 @@ void Bossfight::procesarInput(char c) {
     case 'a': _jugador->moverIzquierda(); break;
     case 'd': _jugador->moverDerecha();   break;
     case 'w': _jugador->saltar();         break;
-    case 's': _jugador->agacharse();      break;
     case 'j': _jugador->atacar();         break;
     case 'k': _jugador->defender();       break;
     case 'l': _jugador->usarEspecial(_jefe); break;
-    default:
-        if (_jugador->getEstado() == EstadoPersonaje::AGACHADO)
-            _jugador->levantarse();
         break;
     }
 }
@@ -60,8 +56,16 @@ void Bossfight::procesarIA() {
 
 void Bossfight::actualizarEstado() {
     _jugador->update();
-    procesarColision(_jugador, _jefe);
-    procesarColision(_jefe, _jugador);
+    procesarColision(_jugador, _jefe, _jugadorYaGolpeó);
+    procesarColision(_jefe, _jugador, _jefeYaGolpeó);
+    if (_jugador->getEstado() != EstadoPersonaje::ATACANDO)
+    {
+        _jugadorYaGolpeó = false;
+    }
+    if (_jefe->getEstado() != EstadoPersonaje::ATACANDO)
+    {
+        _jefeYaGolpeó = false;
+    }_jugador->update();
     std::cout << "\r"
               << _jugador->getNombre()
               << ": X=" << _jugador->getPosicionX()

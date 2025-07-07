@@ -4,9 +4,11 @@
 
 #include <QPainter>
 #include <QKeyEvent>
-
 #include <QPixmap>
-#include <QString>
+#include <QTransform>
+#include <QFile>
+#include <QVBoxLayout>
+
 
 CombateWidget::CombateWidget(Personaje* jugador, Personaje* oponente, QWidget *parent)
     : QWidget(parent)
@@ -15,157 +17,163 @@ CombateWidget::CombateWidget(Personaje* jugador, Personaje* oponente, QWidget *p
     , _oponente(oponente)
 {
     ui->setupUi(this);
-    this->setStyleSheet(R"(
-/* ─── Contenedor general ──────────────────────────────────────────── */
-QWidget#CombateWidget {
-  background-color: transparent; /* el fondo general queda el del widget padre */
-}
 
-/* ─── Portrait y HUD container ────────────────────────────────────── */
-/* Si envuelves portrait + barras + nombre en un QFrame con objectName frameHUDJugador / frameHUDOponente */
-QFrame#frameHUDJugador,
-QFrame#frameHUDOponente {
-  background-color: black;
-  border: 1px solid #333;
-  border-radius: 5px;
-  padding: 10px;
-}
+    QFile f(":/qss/assets/qss/combate.qss");
+    if (f.open(QFile::ReadOnly | QFile::Text)) {
+        setStyleSheet(QString::fromUtf8(f.readAll()));
+    }
 
-/* ─── Portrait ───────────────────────────────────────────────────── */
-QLabel#labelPortadaJugador,
-QLabel#labelPortadaOponente {
-  background: white;
-  border-radius: 10px;
-}
+    keysPressed.clear();
 
-/* ─── Nombre ───────────────────────────── */
-QLabel#labelNombreJugador,
-QLabel#labelNombreOponente {
-  background: transparent;
-  color: white;
-  font: "Saiyan-sans";
-  font-size: 20pt;
-  margin-top: 3px;
-  qproperty-alignment: 'AlignLeft';
-}
-
-/* ─── Barra de vida (verde) ───────────────────────────────────────── */
-QProgressBar#barraVidaJugador,
-QProgressBar#barraVidaOponente {
-  background-color: #222222;    /* ligeramente más claro que negro */
-  border: white;
-  height: 30px;
-  border-radius: 2px;
-  margin: 0px 0;
-}
-QProgressBar#barraVidaJugador::chunk,
-QProgressBar#barraVidaOponente::chunk {
-  background-color: #2ECC71;    /* verde */
-  border-radius: 2px;
-}
-
-/* ─── Barra de ki (amarillo) ─────────────────────────────────────── */
-QProgressBar#barraKiJugador,
-QProgressBar#barraKiOponente {
-  background-color: #222222;
-  border: none;
-  height: 30px;
-  border-radius: 2px;
-  margin: 0px 0;
-}
-QProgressBar#barraKiJugador::chunk,
-QProgressBar#barraKiOponente::chunk {
-  background-color: #F1C40F;    /* amarillo */
-  border-radius: 2px;
-}
-)");
-
-
-    // Mostrar nombres
     ui->labelNombreJugador->setText(_jugador->getNombre());
     ui->labelNombreOponente->setText(_oponente->getNombre());
-
-    // Mostrar portadas
     QPixmap portadaJugador(QString(":/portadas/assets/portadas/%1.png").arg(_jugador->getNombre()));
     QPixmap portadaOponente(QString(":/portadas/assets/portadas/%1.png").arg(_oponente->getNombre()));
-
     ui->labelPortadaJugador->setPixmap(portadaJugador.scaled(100,100, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->labelPortadaOponente->setPixmap(portadaOponente.scaled(100,100, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->barraVidaJug->setRange(0, _jugador->getVidaMax());
+    ui->barraKiJug->setRange(0, _jugador->getKiMax());
+    ui->barraVidaOponent->setRange(0, _oponente->getVidaMax());
+    ui->barraKiOponent->setRange(0, _oponente->getKiMax());
+    ui->barraVidaJug->setTextVisible(false);
+    ui->barraKiJug  ->setTextVisible(false);
+    ui->barraVidaOponent->setTextVisible(false);
+    ui->barraKiOponent  ->setTextVisible(false);
 
-    // Configurar barras
-    ui->barraVidaJugador->setRange(0, _jugador->getVidaMax());
-    ui->barraKiJugador->setRange(0, _jugador->getKiMax());
-    ui->barraVidaOponente->setRange(0, _oponente->getVidaMax());
-    ui->barraKiOponente->setRange(0, _oponente->getKiMax());
-    ui->barraVidaJugador->setTextVisible(false);
-    ui->barraKiJugador  ->setTextVisible(false);
-    ui->barraVidaOponente->setTextVisible(false);
-    ui->barraKiOponente  ->setTextVisible(false);
+    _jugador->reiniciarStats();
+    _oponente->reiniciarStats();
+    actualizarHUD();
 
+    // Inicializar el duelista y temporizador de frames
     duelo = new Duelo1v1(_jugador, _oponente);
+    qDebug() << "[INIT] VidaMax Jugador:" << _jugador->getVidaMax()
+             << "Vida Jugador:" << _jugador->getVida();
+    qDebug() << "[INIT] VidaMax Oponente:" << _oponente->getVidaMax()
+             << "Vida Oponente:" << _oponente->getVida();
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &CombateWidget::updateFrame);
-    spriteJugador = QPixmap(QString(":/sprites/assets/sprites/%1/idle_0.png")
-                                .arg(_jugador->getNombre()));
-    spriteOponente = QPixmap(QString(":/sprites/assets/sprites/%1/idle_0.png")
-                                 .arg(_oponente->getNombre()));
-    spriteJugador = spriteJugador.scaled(spriteJugador.width()*3,
-                                         spriteJugador.height()*3,
-                                         Qt::KeepAspectRatio,
-                                         Qt::SmoothTransformation);
+    timer->setInterval(33);
 
-    spriteOponente = spriteOponente.scaled(spriteOponente.width()*3,
-                                           spriteOponente.height()*3,
-                                           Qt::KeepAspectRatio,
-                                           Qt::SmoothTransformation);
-    timer->start(33); // 30 FPS aprox
+    //Animaciones :
+    auto cargar = [&](Personaje* p, QMap<QString, QVector<QPixmap>>& mapa){
+        QString nombre = p->getNombre();
+        for (auto accion : {"idle", "walk", "jump", "attack", "super","block"}) {
+            QVector<QPixmap>& vec = mapa[accion];
+            int idx = 0;
+            while (true) {
+                QString path = QString(":/sprites/assets/sprites/%1/%2_%3.png")
+                .arg(nombre, accion).arg(idx);
+                QPixmap img(path);
+                if (img.isNull()) break;
+                vec << img.scaled(140,140,Qt::KeepAspectRatio,Qt::SmoothTransformation);
+                ++idx;
+            }
+        }
+    };
+    auto makeMirrors = [](QMap<QString, QVector<QPixmap>>& mapa) {
+        QTransform flipH;
+        flipH.scale(-1, 1);
+        for (const QString& key : mapa.keys()) {
+            QVector<QPixmap> espejados;
+            for (const QPixmap& frame : mapa[key]) {
+                espejados.push_back(frame.transformed(flipH));
+            }
+            mapa.insert(key + "_mir", espejados);
+        }
+    };
+    cargar(_jugador,  animJugador);
+    cargar(_oponente, animOponente);
+    makeMirrors(animJugador);
+    makeMirrors(animOponente);
 
 
-    // Primer actualización visual
-    actualizarHUD();
+    ui->stackedWidget->setCurrentIndex(0);
+    ui->countDownWidget->start();
 }
 
-
 CombateWidget::~CombateWidget() {
-    delete ui;
     delete duelo;
     delete _jugador;
     delete _oponente;
+    delete ui;
 }
 
 void CombateWidget::keyPressEvent(QKeyEvent* event) {
-    char c = '\0';
-    switch (event->key()) {
-    case Qt::Key_A: c = 'a'; break;
-    case Qt::Key_D: c = 'd'; break;
-    case Qt::Key_W: c = 'w'; break;
-    case Qt::Key_S: c = 's'; break;
-    case Qt::Key_J: c = 'j'; break;
-    case Qt::Key_K: c = 'k'; break;
-    case Qt::Key_L: c = 'l'; break;
-    case Qt::Key_Q: c = 'q'; break;
-    default: break;
-    }
-    if (duelo && c) duelo->_ultimoInput = c;
+    // Registrar tecla presionada
+    keysPressed.insert(event->key());
 }
 
 void CombateWidget::keyReleaseEvent(QKeyEvent* event) {
-    _keysPressed.remove(event->key());
+    // Quitar tecla al soltarla
+    keysPressed.remove(event->key());
 }
 
 void CombateWidget::updateFrame() {
-    duelo->run();
-    actualizarHUD();
-    if (duelo->haTerminado()) {
-        timer->stop();
-        qDebug() << (duelo->ganoJugador() ? "¡Ganó el jugador!"
-                                          : "¡Ganó el oponente!");
-        close();  // o emitir señal para volver al menú
+    if (ui->stackedWidget->currentIndex() != 1)
         return;
-    }
-    update();
-}
 
+    qDebug() << "[FRAME]"
+             << "Vida Jug:" << _jugador->getVida()
+             << "Vida Opo:" << _oponente->getVida();
+
+    int oldXJ = _jugador->getPosicionX();
+    int oldXO = _oponente->getPosicionX();
+
+    // Procesar entradas múltiples (movimiento/salto/ataque)
+    duelo->procesarMultiEntrada(keysPressed);
+    // IA del oponente y física/collisiones
+    // 2) IA: sólo cada 10 frames para que no sea rapidísima
+    static int iaCounter = 0;
+    const int IA_INTERVAL = 2;
+    if (++iaCounter >= IA_INTERVAL) {
+            iaCounter = 0;
+            duelo->procesarIA();
+        }
+    duelo->actualizarFrame();
+    actualizarHUD();
+
+    // tras procesar entrada, IA y física…
+    auto estJ = _jugador->getEstado();
+    if      (estJ == EstadoPersonaje::SALTANDO)           accionJugador = "jump";
+    else if (estJ == EstadoPersonaje::ATACANDO)           accionJugador = "attack";
+    else if (estJ == EstadoPersonaje::USANDO_ESPECIAL)    accionJugador = "super";
+    else if (estJ == EstadoPersonaje::DEFENDIENDO)     accionJugador = "block";
+    else if (_jugador->getPosicionX() != oldXJ) {
+        accionJugador = "walk";
+        jugadorMiraDerecha = (_jugador->getPosicionX() > oldXJ);
+    }
+    else accionJugador = "idle";
+
+    auto estO = _oponente->getEstado();
+    if      (estO == EstadoPersonaje::SALTANDO)           accionOponente = "jump";
+    else if (estO == EstadoPersonaje::ATACANDO)           accionOponente = "attack";
+    else if (estO == EstadoPersonaje::USANDO_ESPECIAL)    accionOponente = "super";
+    else if (estO == EstadoPersonaje::DEFENDIENDO)     accionOponente = "block";
+    else if (_oponente->getPosicionX() != oldXO) {
+        accionOponente = "walk";
+        oponenteMiraDerecha = (_oponente->getPosicionX() > oldXO);
+    }
+    else accionOponente = "idle";
+
+
+    // Avanzar frame de animación cada pocos ticks
+    cuentaFrames = (cuentaFrames + 1) % 4;
+    if (cuentaFrames == 0) {
+        const auto& aniJ = animJugador.value(accionJugador);
+        if (!aniJ.isEmpty()) {
+            frameJugador = (frameJugador + 1) % aniJ.size();
+        }
+        const auto& aniO = animOponente.value(accionOponente);
+        if (!aniO.isEmpty()) {
+            frameOponente = (frameOponente + 1) % aniO.size();
+        }
+    }
+    if (duelo->haTerminado()) {
+            mostrarResultado();
+            return;
+        }
+    update(); // repaint del widget
+    }
 void CombateWidget::paintEvent(QPaintEvent*) {
     QPainter painter(this);
 
@@ -177,37 +185,103 @@ void CombateWidget::paintEvent(QPaintEvent*) {
         painter.fillRect(rect(), Qt::black);
     }
 
-    // Base del suelo en pantalla (ajustala según necesites)
+    // Base de suelo y escalado
     int yBase = height() - 30;
+    const int escalaX = 5;
 
-    // Posición lógica de los personajes
-    const int escalaX = 8; // ajusta este valor hasta que se vea bien
     int xJugador = _jugador->getPosicionX() * escalaX;
     int xOponente = _oponente->getPosicionX() * escalaX;
-    int yJugador = _jugador->getPosicionY(); // si no existe, usa 0
+    int yJugador = _jugador->getPosicionY();
     int yOponente = _oponente->getPosicionY();
 
-    // Cargar sprites estáticos (más adelante vendrán animaciones)
-    QString nombreJugador = _jugador->getNombre();
-    QString nombreOponente = _oponente->getNombre();
+    // Sprite jugador (con dirección)
+    QString accionJ = accionJugador + (jugadorMiraDerecha ? "" : "_mir");
+    const auto& vecJ = animJugador.value(accionJ);
+    if (!vecJ.isEmpty() && frameJugador < vecJ.size()) {
+        const QPixmap& pm = vecJ[frameJugador];
+        painter.drawPixmap(
+            xJugador,
+            yBase - yJugador - pm.height(),
+            pm
+            );
+    }
 
-    QPixmap spriteJugador(QString(":/sprites/assets/sprites/%1/idle_0.png").arg(nombreJugador));
-    QPixmap spriteOponente(QString(":/sprites/assets/sprites/%1/idle_0.png").arg(nombreOponente));
-
-    QPixmap spriteEscaladoJugador = spriteJugador.scaled(140, 140, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    QPixmap spriteEscaladoOponente = spriteOponente.scaled(140, 140, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-    painter.drawPixmap(xJugador, yBase - yJugador - spriteEscaladoJugador.height(), spriteEscaladoJugador);
-    painter.drawPixmap(xOponente, yBase - yOponente - spriteEscaladoOponente.height(), spriteEscaladoOponente);
+    // Sprite oponente (con dirección)
+    QString accionO = accionOponente + (oponenteMiraDerecha ? "" : "_mir");
+    const auto& vecO = animOponente.value(accionO);
+    if (!vecO.isEmpty() && frameOponente < vecO.size()) {
+        const QPixmap& pm = vecO[frameOponente];
+        painter.drawPixmap(
+            xOponente,
+            yBase - yOponente - pm.height(),
+            pm
+            );
+    }
 }
 
 
 void CombateWidget::actualizarHUD() {
     if (!_jugador || !_oponente) return;
-
-    ui->barraVidaJugador->setValue(_jugador->getVida());
-    ui->barraKiJugador->setValue(_jugador->getKi());
-
-    ui->barraVidaOponente->setValue(_oponente->getVida());
-    ui->barraKiOponente->setValue(_oponente->getKi());
+    ui->barraVidaJug->setValue(_jugador->getVida());
+    ui->barraKiJug->setValue(_jugador->getKi());
+    ui->barraVidaOponent->setValue(_oponente->getVida());
+    ui->barraKiOponent->setValue(_oponente->getKi());
 }
+
+void CombateWidget::iniciarCombate() {
+    ui->stackedWidget->setCurrentIndex(1);
+    QCoreApplication::processEvents();
+    keysPressed.clear();
+    _jugador->reiniciarStats();
+    _oponente->reiniciarStats();
+    actualizarHUD();
+    QTimer::singleShot(0, this, [this]() {
+        timer->start();
+    });
+}
+void CombateWidget::mostrarResultado() {
+    timer->stop();
+    QString texto;
+
+    if (_jugador->getVida() <= 0 && _oponente->getVida() <= 0) {
+        texto = "Empate";
+    } else if (duelo->ganoJugador()) {
+        texto = _jugador->getNombre();
+    } else {
+        texto = _oponente->getNombre();
+    }
+
+    ui->labelResultado->setText(QStringLiteral("GANADOR: %1").arg(texto));
+    ui->stackedWidget->setCurrentIndex(2);
+
+}
+
+void CombateWidget::reiniciarCombate() {
+        delete duelo;
+        duelo = new Duelo1v1(_jugador, _oponente);
+        ui->stackedWidget->setCurrentIndex(0);
+        keysPressed.clear();
+        _jugador->reiniciarStats();
+        _oponente->reiniciarStats();
+        actualizarHUD();
+        ui->countDownWidget->start();
+}
+
+
+void CombateWidget::on_btnRevancha_clicked()
+{
+    reiniciarCombate();
+}
+
+
+void CombateWidget::on_btnVolver_clicked()
+{
+    close();
+}
+
+
+void CombateWidget::on_countDownWidget_finished()
+{
+    iniciarCombate();
+}
+

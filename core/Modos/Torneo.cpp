@@ -39,8 +39,8 @@ void Torneo::avanzarRonda() {
 
         // ¿Está el jugador en este duelo?
         if (p1 == _jugador || p2 == _jugador) {
-            bool ganaPrimero = duelo.run();
-            ganador = ganaPrimero ? p1 : p2;
+            //bool ganaPrimero = duelo.run();
+            //ganador = ganaPrimero ? p1 : p2;
         } else {
             // CPU vs CPU → resolución aleatoria
             ganador = (std::rand() % 2 == 0) ? p1 : p2;

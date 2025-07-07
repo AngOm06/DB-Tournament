@@ -1,8 +1,8 @@
 #include "MonoGigante.h"
 #include <iostream>
 
-static constexpr int COOLDOWN_ESPECIAL = 20;
-static constexpr int DURACION_VULNERABLE = 15;
+static constexpr int COOLDOWN_ESPECIAL = 150;
+static constexpr int DURACION_VULNERABLE = 200;
 
 MonoGigante::MonoGigante()
     : Personaje("Oozaru", /*vida*/120,/*velX*/0, /*danoBase*/6, /*kiMax*/0),
@@ -30,7 +30,6 @@ void MonoGigante::usarEspecial(Personaje* objetivo) {
         break;
     case 2:
         std::cout << "\nOozaru golpea con su cola!\n";
-        if (objetivo->getEstado() != EstadoPersonaje::AGACHADO)
             objetivo->recibirDanio(7);
         break;
     }
