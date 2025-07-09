@@ -28,6 +28,8 @@ private:
     void procesarInput(char c);
     void procesarIA();
     void actualizarEstado();
+    bool _jugadorYaGolpeó = false;
+    bool _jefeYaGolpeó = false;
 };
 
 #endif // BOSSFIGHT_H

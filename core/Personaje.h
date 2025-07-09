@@ -5,13 +5,13 @@
 #include <iostream>
 
 // Constantes de escenario y mecánicas
-static constexpr int MAX_X = 99;
+static constexpr int MAX_X = 150;
 static constexpr int MIN_X = 0;
-static constexpr int ALCANCE_ATAQUE = 5;
-static constexpr int FRAMES_ATACAR = 2;
-static constexpr int FRAMES_ATAQUE_BAJO = 2;
-static constexpr int FRAMES_DEFENDER = 2;
-static constexpr float GRAVEDAD = 1.0f;    // unidades de velocidad vertical por frame
+static constexpr int ALCANCE_ATAQUE = 15;
+static constexpr int ALCANCE_ESPECIAL = 80;
+static constexpr int FRAMES_ATACAR = 8;
+static constexpr int FRAMES_DEFENDER = 5;
+static constexpr float GRAVEDAD = 2.0f;    // unidades de velocidad vertical por frame
 
 // Estados posibles del personaje en el combate
 enum class EstadoPersonaje {
@@ -19,8 +19,6 @@ enum class EstadoPersonaje {
     MOVIENDO,
     SALTANDO,
     ATACANDO,
-    AGACHADO,
-    ATACANDO_BAJO,
     DEFENDIENDO,
     USANDO_ESPECIAL,
     ATURDIDO
@@ -57,6 +55,8 @@ public:
     const char* getNombre() const;
     int getVida() const;
     int getKi() const;
+    int getVidaMax() const;
+    int getKiMax() const;
     int getPosicionX() const;
     int getVelocidadX() const;
     int getDanoBase() const;
@@ -66,14 +66,11 @@ public:
     void setPosicionX(int x) { posicionX = x; }
 
     // Acciones básicas
-    void agacharse();
-    void levantarse();
     void moverIzquierda();
     void moverDerecha();
     void detenerMovimiento();
     void saltar();
     void atacar();
-    void atacarBajo();
     void defender();
 
     // Cada subclase define su propio ataque especial

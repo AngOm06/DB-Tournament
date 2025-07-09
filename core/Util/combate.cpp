@@ -1,22 +1,35 @@
 #include "Combate.h"
-#include <cmath>  // std::abs
 
-void procesarColision(Personaje* atacante, Personaje* defensor) {
+void procesarColision(Personaje* atacante, Personaje* defensor, bool& yaGolpeó) {
     if (!atacante || !defensor) return;
 
-    // Sólo aplicamos daño si el atacante está realizando un ataque
+    if (yaGolpeó) return;  // ya aplicamos este ataque
     EstadoPersonaje est = atacante->getEstado();
-    if (est != EstadoPersonaje::ATACANDO &&
-        est != EstadoPersonaje::ATACANDO_BAJO)
+    if (est != EstadoPersonaje::ATACANDO)
     {
         return;
     }
-
-    // Comprobamos distancia en X
     int dx = std::abs(atacante->getPosicionX() - defensor->getPosicionX());
     if (dx <= ALCANCE_ATAQUE) {
-        // Atacante golpea: aplicamos daño base
         defensor->recibirDanio(atacante->getDanoBase());
         atacante->recuperarKi(5);
+        yaGolpeó = true;  // no más daño hasta que termine este ataque
     }
+}
+bool puedeMover(Personaje* p, Personaje* rival, bool dir) {
+    if (!p || !rival) return false;
+
+    // Si cualquiera está en el aire, permitimos el paso
+    if (p->getPosicionY() > 0.0f || rival->getPosicionY() > 0.0f)
+        return true;
+
+    // Distancia en X
+    int dx = std::abs(p->getPosicionX() - rival->getPosicionX());
+    if (dx < ANCHO_PERSONAJE) {
+        // Si intento moverme hacia el rival, bloqueo
+        if (dir && p->getPosicionX() < rival->getPosicionX()) return false;
+        if (!dir && p->getPosicionX() > rival->getPosicionX()) return false;
+    }
+
+    return true;
 }

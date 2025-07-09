@@ -18,5 +18,50 @@
     </qresource>
     <qresource prefix="/qss">
         <file>assets/qss/styles.qss</file>
+        <file>assets/qss/combate.qss</file>
+    </qresource>
+    <qresource prefix="/sprites">
+        <file>assets/sprites/Goku/idle_0.png</file>
+        <file>assets/sprites/JackieChun/idle_0.png</file>
+        <file>assets/sprites/Goku/idle_1.png</file>
+        <file>assets/sprites/Goku/idle_2.png</file>
+        <file>assets/sprites/Goku/idle_3.png</file>
+        <file>assets/sprites/Goku/idle_4.png</file>
+        <file>assets/sprites/Goku/walk_0.png</file>
+        <file>assets/sprites/Goku/walk_1.png</file>
+        <file>assets/sprites/Goku/walk_2.png</file>
+        <file>assets/sprites/Goku/walk_3.png</file>
+        <file>assets/sprites/Goku/walk_4.png</file>
+        <file>assets/sprites/Goku/walk_5.png</file>
+        <file>assets/sprites/Goku/attack_0.png</file>
+        <file>assets/sprites/Goku/attack_1.png</file>
+        <file>assets/sprites/Goku/attack_2.png</file>
+        <file>assets/sprites/Goku/attack_3.png</file>
+        <file>assets/sprites/Goku/attack_4.png</file>
+        <file>assets/sprites/Goku/attack_5.png</file>
+        <file>assets/sprites/Goku/attack_6.png</file>
+        <file>assets/sprites/Goku/attack_7.png</file>
+        <file>assets/sprites/Goku/attack_8.png</file>
+        <file>assets/sprites/Goku/jump_0.png</file>
+        <file>assets/sprites/Goku/jump_1.png</file>
+        <file>assets/sprites/Goku/jump_2.png</file>
+        <file>assets/sprites/Goku/jump_3.png</file>
+        <file>assets/sprites/Goku/jump_4.png</file>
+        <file>assets/sprites/Goku/jump_5.png</file>
+        <file>assets/sprites/Goku/jump_6.png</file>
+        <file>assets/sprites/Goku/jump_7.png</file>
+        <file>assets/sprites/Goku/jump_8.png</file>
+        <file>assets/sprites/Goku/jump_9.png</file>
+        <file>assets/sprites/Goku/super_0.png</file>
+        <file>assets/sprites/Goku/super_1.png</file>
+        <file>assets/sprites/Goku/super_2.png</file>
+        <file>assets/sprites/Goku/super_3.png</file>
+        <file>assets/sprites/Goku/super_4.png</file>
+        <file>assets/sprites/Goku/super_5.png</file>
+        <file>assets/sprites/Goku/super_6.png</file>
+        <file>assets/sprites/Goku/super_7.png</file>
+        <file>assets/sprites/Goku/super_8.png</file>
+        <file>assets/sprites/Goku/block_0.png</file>
+        <file>assets/sprites/Goku/block_1.png</file>
     </qresource>
 </RCC>

@@ -1,0 +1,50 @@
+/* Contenedor HUD: portrait + barras + nombre */
+QFrame#frameHUDJugador, QFrame#frameHUDOponente {
+    background-color: black;
+    border: 1px solid #333;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+/* Portrait */
+QLabel#labelPortadaJugador, QLabel#labelPortadaOponente {
+    background: white;
+    border-radius: 10px;
+}
+
+/* ─── Nombre ───────────────────────────── */
+QLabel#labelNombreJug,
+QLabel#labelNombreOponent {
+  background: transparent;
+  color: white;
+  font: "Saiyan-sans";
+  font-size: 20pt;
+  margin-top: 3px;
+  qproperty-alignment: 'AlignLeft';
+}
+
+/* Barra de vida (verde) */
+QProgressBar#barraVidaJug, QProgressBar#barraVidaOponent {
+    background-color: #222222;
+    border: white;
+    height: 30px;
+    border-radius: 2px;
+    margin: 0px;
+}
+QProgressBar#barraVidaJug::chunk, QProgressBar#barraVidaOponent::chunk {
+    background-color: #2ECC71;
+    border-radius: 2px;
+}
+
+/* Barra de ki (amarillo) */
+QProgressBar#barraKiJug, QProgressBar#barraKiOponent {
+    background-color: #222222;
+    border: none;
+    height: 30px;
+    border-radius: 2px;
+    margin: 0px;
+}
+QProgressBar#barraKiJug::chunk, QProgressBar#barraKiOponent::chunk {
+    background-color: #F1C40F;
+    border-radius: 2px;
+}

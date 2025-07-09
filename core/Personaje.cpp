@@ -25,8 +25,7 @@ Personaje::~Personaje() {
 }
 
 // Recibe daño, teniendo en cuenta estado de agachado o defendiendo
-void Personaje::recibirDanio(int cantidad) {
-    if (estado == EstadoPersonaje::AGACHADO) return;           // esquiva
+void Personaje::recibirDanio(int cantidad) {     // esquiva
     int danio = cantidad;
     if (estado == EstadoPersonaje::DEFENDIENDO) danio /= 2;    // mitiga
     vida = std::max(0, vida - danio);
@@ -40,35 +39,29 @@ void Personaje::recuperarKi(int cantidad) {
 // Getters
 const char*       Personaje::getNombre()   const { return nombre; }
 int               Personaje::getVida()     const { return vida; }
+int               Personaje::getVidaMax()     const { return vidaMax; }
 int               Personaje::getVelocidadX()     const { return velocidadX; }
 int               Personaje::getKi()       const { return kiActual; }
+int               Personaje::getKiMax()     const { return kiMax; }
 int               Personaje::getPosicionX()const { return posicionX; }
 float             Personaje::getPosicionY()const { return posicionY; }
 int               Personaje::getDanoBase() const { return danoBase; }
 EstadoPersonaje   Personaje::getEstado()   const { return estado; }
 
 // Acciones de movimiento y postura
-void Personaje::agacharse() {
-    if (estado == EstadoPersonaje::IDLE)
-        estado = EstadoPersonaje::AGACHADO;
-}
-void Personaje::levantarse() {
-    if (estado == EstadoPersonaje::AGACHADO)
-        estado = EstadoPersonaje::IDLE;
-}
 void Personaje::moverIzquierda() {
-    if (estado == EstadoPersonaje::IDLE) {
-        // posX nunca baja de MIN_X
-        posicionX = max(MIN_X, posicionX - velocidadX);
-        estado = EstadoPersonaje::MOVIENDO;
+    if (estado != EstadoPersonaje::ATACANDO) {
+        posicionX = std::max(MIN_X, posicionX - velocidadX);
+        if (estado != EstadoPersonaje::SALTANDO)
+            estado = EstadoPersonaje::MOVIENDO;
     }
 }
 
 void Personaje::moverDerecha() {
-    if (estado == EstadoPersonaje::IDLE) {
-        // posX nunca sube de MAX_X
-        posicionX = min(MAX_X, posicionX + velocidadX);
-        estado = EstadoPersonaje::MOVIENDO;
+    if (estado != EstadoPersonaje::ATACANDO) {
+        posicionX = std::min(MAX_X, posicionX + velocidadX);
+        if (estado != EstadoPersonaje::SALTANDO)
+            estado = EstadoPersonaje::MOVIENDO;
     }
 }
 void Personaje::detenerMovimiento() {
@@ -78,8 +71,10 @@ void Personaje::detenerMovimiento() {
 
 // Salto con física simple
 void Personaje::saltar() {
-    if (estado == EstadoPersonaje::IDLE && posicionY == 0.0f) {
-        velocidadY = /* valor inicial de salto, p.ej. */ 10.0f;
+    // Permitir salto tanto si está IDLE como MOVIENDO
+    if ((estado == EstadoPersonaje::IDLE || estado == EstadoPersonaje::MOVIENDO)
+        && posicionY == 0.0f) {
+        velocidadY = 20.0f;
         estado = EstadoPersonaje::SALTANDO;
     }
 }
@@ -88,12 +83,6 @@ void Personaje::saltar() {
 void Personaje::atacar() {
     if (estado == EstadoPersonaje::IDLE)
         cambiarEstado(EstadoPersonaje::ATACANDO, FRAMES_ATACAR);
-    else if (estado == EstadoPersonaje::AGACHADO)
-        atacarBajo();
-}
-void Personaje::atacarBajo() {
-    if (estado == EstadoPersonaje::IDLE)
-        cambiarEstado(EstadoPersonaje::ATACANDO_BAJO, FRAMES_ATAQUE_BAJO);
 }
 void Personaje::defender() {
     if (estado == EstadoPersonaje::IDLE)
