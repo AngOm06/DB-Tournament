@@ -1,26 +1,27 @@
-#ifndef TORNEO_H
-#define TORNEO_H
+    #ifndef TORNEO_H
+    #define TORNEO_H
 
-#include <vector>
-#include <cstdlib>      // std::rand()
-#include "Personaje.h"
-#include "Duelo1v1.h"
+    #include <vector>
+    #include "Personaje.h"
 
-class Torneo {
-private:
-    Personaje* _jugador;
-    std::vector<Personaje*> participantes;
-    std::vector<Duelo1v1> duelos;
-    int rondaActual;
+    class Torneo {
+    private:
+        Personaje* _jugador;
+        std::vector<Personaje*> participantes;
+        std::vector<Personaje*> ganadores;
+        std::vector<std::pair<Personaje*,Personaje*>> duelos;
+        int rondaActual;
 
-    void prepararDuelos();
-    void avanzarRonda();
-public:
-    Torneo(Personaje* jugador, const std::vector<Personaje*>& listaParticipantes);
-    ~Torneo() = default;
+        void prepararDuelos();
+    public:
+        Torneo(Personaje* jugador, const std::vector<Personaje*>& listaParticipantes);
+        ~Torneo() = default;
 
-    // Inicia el bracket y al final devuelve el campeón
-    Personaje* run();
-};
+        void iniciar();
+        bool hayMasDuelos() const;
+        std::vector<std::pair<Personaje*,Personaje*>> obtenerDuelosRonda();
+        void registraGanador(Personaje* ganador);
+        Personaje* getCampeon() const;
+    };
 
-#endif // TORNEO_H
+    #endif // TORNEO_H

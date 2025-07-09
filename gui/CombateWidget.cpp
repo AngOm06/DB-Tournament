@@ -10,13 +10,15 @@
 #include <QVBoxLayout>
 
 
-CombateWidget::CombateWidget(Personaje* jugador, Personaje* oponente, QWidget *parent)
+CombateWidget::CombateWidget(Personaje* jugador, Personaje* oponente, QWidget *parent, ModoCombate modo_)
     : QWidget(parent)
     , ui(new Ui::CombateWidget)
     , _jugador(jugador)
     , _oponente(oponente)
+    , modo(modo_)
 {
     ui->setupUi(this);
+    ui->btnContinuar->hide();
 
     QFile f(":/qss/assets/qss/combate.qss");
     if (f.open(QFile::ReadOnly | QFile::Text)) {
@@ -252,6 +254,21 @@ void CombateWidget::mostrarResultado() {
     }
 
     ui->labelResultado->setText(QStringLiteral("GANADOR: %1").arg(texto));
+
+    if (modo == ModoCombate::Duelo) {
+        ui->btnRevancha->show();
+        ui->btnVolver->show();
+        ui->btnContinuar->hide();
+    } else { // Torneo
+        ui->btnRevancha->hide();
+        ui->btnVolver->hide();
+        if (duelo->ganoJugador()) {
+            ui->btnContinuar->show();
+        } else {
+            ui->btnContinuar->setText("Salir");
+            ui->btnContinuar->show();
+        }
+    }
     ui->stackedWidget->setCurrentIndex(2);
 
 }
@@ -283,5 +300,17 @@ void CombateWidget::on_btnVolver_clicked()
 void CombateWidget::on_countDownWidget_finished()
 {
     iniciarCombate();
+}
+
+
+void CombateWidget::on_btnContinuar_clicked()
+{
+    if (duelo->ganoJugador()) {
+        emit combateTerminado(true);
+    } else {
+        emit combateTerminado(false);
+    }
+
+    close();
 }
 

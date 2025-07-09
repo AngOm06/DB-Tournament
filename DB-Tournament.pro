@@ -25,6 +25,7 @@ SOURCES += \
     core/Personaje.cpp \
     core/Personajes/Goku.cpp\
     gui/ResultadoWidget.cpp \
+    gui/TorneoWidget.cpp \
     main.cpp
 HEADERS += \
     gui/CombateWidget.h \
@@ -47,11 +48,13 @@ HEADERS += \
     core/Personajes/Ranfan.h \
     core/Personajes/Yamcha.h \
     core/Modos/Torneo.h \
-    gui/ResultadoWidget.h
+    gui/ResultadoWidget.h \
+    gui/TorneoWidget.h
 
 FORMS += \
     gui/CombateWidget.ui \
-    gui/MainWindow.ui
+    gui/MainWindow.ui \
+    gui/TorneoWidget.ui
 
 RESOURCES += \
     resources.qrc

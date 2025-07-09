@@ -195,7 +195,7 @@ void MainWindow::on_btnInicio_clicked()
     switch (currentMode) {
     case SelectMode::Tournament: {
         // Ejecutar torneo
-        Personaje* jugador = selectedCharacter->clone();
+        /*Personaje* jugador = selectedCharacter->clone();
         std::vector<Personaje*> oponentes;
         for (Personaje* p : roster)
             if (p != selectedCharacter)
@@ -206,7 +206,7 @@ void MainWindow::on_btnInicio_clicked()
 
         delete jugador;
         qDeleteAll(oponentes);
-        break;
+        break;*/
     }
 
     case SelectMode::DuelPlayer: {

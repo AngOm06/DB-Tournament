@@ -202,11 +202,11 @@
        <bold>true</bold>
       </font>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
      <property name="text">
       <string>GANADOR: </string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
      </property>
     </widget>
     <widget class="QPushButton" name="btnRevancha">
@@ -233,6 +233,19 @@
      </property>
      <property name="text">
       <string>VOLVER</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnContinuar">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>350</y>
+       <width>211</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </widget>
