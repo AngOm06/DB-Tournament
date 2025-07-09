@@ -1,11 +1,11 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "gui/CombateWidget.h"
+#include "gui/TorneoWidget.h"
 
 #include "core/Modos/Duelo1v1.h"
 #include "core/Modos/Torneo.h"
 
-// Subclases de personajes
 #include "core/Personajes/Goku.h"
 #include "core/Personajes/Krilin.h"
 #include "core/Personajes/Yamcha.h"
@@ -194,19 +194,16 @@ void MainWindow::on_btnInicio_clicked()
 
     switch (currentMode) {
     case SelectMode::Tournament: {
-        // Ejecutar torneo
-        /*Personaje* jugador = selectedCharacter->clone();
+        Personaje* jugador = selectedCharacter->clone();
         std::vector<Personaje*> oponentes;
         for (Personaje* p : roster)
             if (p != selectedCharacter)
                 oponentes.push_back(p->clone());
 
-        Torneo torneo(jugador, oponentes);
-        torneo.run();
-
-        delete jugador;
-        qDeleteAll(oponentes);
-        break;*/
+        TorneoWidget* torneoW = new TorneoWidget(jugador, oponentes);
+        torneoW->setAttribute(Qt::WA_DeleteOnClose);
+        torneoW->show();
+        break;
     }
 
     case SelectMode::DuelPlayer: {
