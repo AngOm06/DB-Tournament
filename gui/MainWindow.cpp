@@ -82,8 +82,7 @@ bool MainWindow::eventFilter(QObject* watched, QEvent* ev)
 // -------------------------------------------------------------
 void MainWindow::setupSelectionGallery()
 {
-    // Limpia la rejilla igual que antes…
-    auto& layout = ui->characterGalleryLayout;   // tu único GridLayout
+    QGridLayout*& layout = ui->characterGalleryLayout;
     while (auto item = layout->takeAt(0)) {
         if (auto w = item->widget()) w->deleteLater();
         delete item;
@@ -127,8 +126,8 @@ void MainWindow::setupSelectionGallery()
         // Label para icono QPixmap
         QPixmap img(QString(":/portadas/assets/portadas/%1.png").arg(p->getNombre()));
         QLabel* icon = new QLabel(cell);
-        icon->setFixedSize(100, 100);            // tamaño fijo para la imagen
-        icon->setScaledContents(true);            // que el label haga la escala
+        icon->setFixedSize(100, 100);
+        icon->setScaledContents(true);
         icon->setPixmap(img);
         icon->setAlignment(Qt::AlignCenter);
         icon->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);

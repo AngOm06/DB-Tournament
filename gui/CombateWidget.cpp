@@ -310,7 +310,6 @@ void CombateWidget::on_btnContinuar_clicked()
     } else {
         emit combateTerminado(false);
     }
-
     close();
 }
 

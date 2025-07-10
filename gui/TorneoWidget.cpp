@@ -23,6 +23,7 @@ TorneoWidget::TorneoWidget(Personaje* jugador,
     for (auto* p : oponentes)
         participantesOriginal.push_back(p);
     torneo.iniciar();
+    duelosActuales = torneo.generarYObtenerDuelos();
     indiceDuelo = 0;
     onDuelosObtenidos();
 }
@@ -91,21 +92,19 @@ void TorneoWidget::actualizarListaParticipantes()
 
 void TorneoWidget::onDuelosObtenidos()
 {
-    // Vaciar duelos actuales
     duelosActuales.clear();
 
-    auto duelos = torneo.obtenerDuelosRonda();
+    std::vector<std::pair<Personaje*,Personaje*>> duelos = torneo.generarYObtenerDuelos();
 
-    for (auto& duelo : duelos) {
+    for (std::pair<Personaje*,Personaje*>& duelo : duelos) {
         Personaje* p1 = duelo.first;
         Personaje* p2 = duelo.second;
-
         if (p1 == torneo.getJugador() || p2 == torneo.getJugador()) {
-            // Este es el duelo del jugador → lo jugamos después
+            // Duelo del jugador
             duelosActuales.push_back(duelo);
         } else {
-            // Este no lo juega el usuario → resolver aleatoriamente
-            static std::mt19937 rng(std::random_device{}());
+            // CPU vs CPU → resolver aleatoriamente
+            std::mt19937 rng(std::random_device{}());
             std::uniform_int_distribution<int> dist(0, 1);
             bool ganaP1 = (dist(rng) == 0);
             Personaje* ganador = ganaP1 ? p1 : p2;
@@ -136,6 +135,9 @@ void TorneoWidget::iniciarSiguienteDuelo()
 }
 void TorneoWidget::onCombateTerminado(bool ganoJugador)
 {
+    if(!ganoJugador){
+         ui->stackedWidget->setCurrentWidget(ui->pagePerdedor);;
+    }
     Personaje* p1 = duelosActuales[indiceDuelo].first;
     Personaje* p2 = duelosActuales[indiceDuelo].second;
     Personaje* ganador = nullptr;
@@ -149,14 +151,15 @@ void TorneoWidget::onCombateTerminado(bool ganoJugador)
 
     if (indiceDuelo >= duelosActuales.size()) {
         if (torneo.hayMasDuelos()) {
-            duelosActuales = torneo.obtenerDuelosRonda(); // ← se mantiene
+            duelosActuales = torneo.generarYObtenerDuelos();
             indiceDuelo = 0;
             onDuelosObtenidos();
         } else {
             Personaje* campeon = torneo.getCampeon();
-            QString msg = QString("¡%1 ha ganado el torneo!").arg(campeon->getNombre());
-            ui->labelProximoOponente->setText(msg);
-            ui->btnIniciar->setEnabled(false);
+            if(campeon==torneo.getJugador()){
+                ui->stackedWidget->setCurrentWidget(ui->pageGanador);
+                //ui->labelGanadorTitulo->setText();
+            }
         }
     } else {
         mostrarProximoOponente();
@@ -167,7 +170,7 @@ void TorneoWidget::onCombateTerminado(bool ganoJugador)
 
 void TorneoWidget::on_btnSalir_clicked()
 {
-    close(); // Por ahora, simplemente cierra la ventana
+    close();
 }
 void TorneoWidget::on_btnIniciar_clicked()
 {

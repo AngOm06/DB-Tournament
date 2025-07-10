@@ -19,13 +19,13 @@
 
         void iniciar();
         bool hayMasDuelos() const;
-        std::vector<std::pair<Personaje*,Personaje*>> obtenerDuelosRonda();
         void registraGanador(Personaje* ganador);
         Personaje* getCampeon() const;
         const std::vector<Personaje*>& getGanadores() const;
         int getNumeroRonda() const { return rondaActual; }
         Personaje* getJugador() const { return _jugador; }
         std::pair<Personaje*, Personaje*> obtenerDueloJugador();
+        std::vector<std::pair<Personaje*,Personaje*>> generarYObtenerDuelos();
     };
 
     #endif // TORNEO_H
