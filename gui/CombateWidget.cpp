@@ -1,7 +1,7 @@
 #include "CombateWidget.h"
 #include "ui_CombateWidget.h"
 #include "core/Personaje.h"
-
+#include "sonidos.h"
 #include <QPainter>
 #include <QKeyEvent>
 #include <QPixmap>
@@ -118,7 +118,6 @@ void CombateWidget::updateFrame() {
     // Procesar entradas múltiples (movimiento/salto/ataque)
     duelo->procesarMultiEntrada(keysPressed);
     // IA del oponente y física/collisiones
-    // 2) IA: sólo cada 10 frames para que no sea rapidísima
     static int iaCounter = 0;
     const int IA_INTERVAL = 2;
     if (++iaCounter >= IA_INTERVAL) {
@@ -128,18 +127,38 @@ void CombateWidget::updateFrame() {
     duelo->actualizarFrame();
     actualizarHUD();
 
-    // tras procesar entrada, IA y física…
+    QString vieja = accionJugador;
+
     auto estJ = _jugador->getEstado();
-    if      (estJ == EstadoPersonaje::SALTANDO)           accionJugador = "jump";
-    else if (estJ == EstadoPersonaje::ATACANDO)           accionJugador = "attack";
+    if      (estJ == EstadoPersonaje::SALTANDO)     accionJugador = "jump";
+    else if (estJ == EstadoPersonaje::ATACANDO)     accionJugador = "attack";
     else if (estJ == EstadoPersonaje::USANDO_ESPECIAL)    accionJugador = "super";
-    else if (estJ == EstadoPersonaje::DEFENDIENDO)     accionJugador = "block";
+    else if (estJ == EstadoPersonaje::DEFENDIENDO)  accionJugador = "block";
+
     else if (_jugador->getPosicionX() != oldXJ) {
         accionJugador = "walk";
         jugadorMiraDerecha = (_jugador->getPosicionX() > oldXJ);
     }
     else accionJugador = "idle";
+    if (accionJugador != vieja) {
+        if (vieja == "walk") {
+            efectoCorrer.stop();
+        }
+        // al entrar en “walk”, lanzar loop
+        if (accionJugador == "walk") {
+            efectoCorrer.play();
+        }
+        if (accionJugador == "attack")
+            efectoAtaque.play();
+        else if (accionJugador == "block")
+            efectoBloqueo.play();
+        else if (accionJugador == "jump")
+            efectoSalto.play();
+        else if (accionJugador == "super")
+            efectoGolpe.play();
+    }
 
+    QString viejaO = accionOponente;
     auto estO = _oponente->getEstado();
     if      (estO == EstadoPersonaje::SALTANDO)           accionOponente = "jump";
     else if (estO == EstadoPersonaje::ATACANDO)           accionOponente = "attack";
@@ -150,6 +169,24 @@ void CombateWidget::updateFrame() {
         oponenteMiraDerecha = (_oponente->getPosicionX() > oldXO);
     }
     else accionOponente = "idle";
+    if (accionOponente != vieja) {
+        if (vieja == "walk") {
+            efectoCorrer.stop();
+        }
+        // al entrar en “walk”, lanzar loop
+        if (accionOponente == "walk") {
+            efectoCorrer.play();
+        }
+        if (accionOponente == "attack")
+            efectoAtaque.play();
+        else if (accionOponente == "block")
+            efectoBloqueo.play();
+        else if (accionOponente == "jump")
+            efectoSalto.play();
+        else if (accionOponente == "super")
+            efectoGolpe.play();
+    }
+
 
     // Avanzar frame de animación cada pocos ticks
     cuentaFrames = (cuentaFrames + 1) % 4;
@@ -220,6 +257,7 @@ void CombateWidget::actualizarHUD() {
 
 void CombateWidget::iniciarCombate() {
     ui->stackedWidget->setCurrentIndex(1);
+    efectoCombate.play();
     QCoreApplication::processEvents();
     keysPressed.clear();
     _jugador->reiniciarStats();

@@ -11,6 +11,7 @@ static constexpr int ALCANCE_ATAQUE = 15;
 static constexpr int ALCANCE_ESPECIAL = 80;
 static constexpr int FRAMES_ATACAR = 8;
 static constexpr int FRAMES_DEFENDER = 5;
+static constexpr int FRAMES_ESPECIAL = 20;
 static constexpr float GRAVEDAD = 2.0f;    // unidades de velocidad vertical por frame
 
 // Estados posibles del personaje en el combate

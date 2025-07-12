@@ -50,6 +50,9 @@ private:
     QSet<int> keysPressed;
     ModoCombate modo = ModoCombate::Duelo;
     bool ownsCharacters;
+    QString accionJugadorPrev = "idle";
+    QString accionOponentePrev = "idle";
+
 
     // Animación
     QMap<QString, QVector<QPixmap>> animJugador, animOponente;

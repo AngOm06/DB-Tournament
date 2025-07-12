@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <QFontDatabase>
 #include <QFile>
+#include "sonidos.h"
 #include "gui/MainWindow.h"
 
 int main(int argc, char *argv[])
@@ -20,6 +21,7 @@ int main(int argc, char *argv[])
         a.setStyleSheet(style);
         qssFile.close();
     }
+    inicializarSonidos();
     MainWindow* w = new MainWindow;
     w->show();
     int exitCode = a.exec();

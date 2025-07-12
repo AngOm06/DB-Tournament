@@ -127,12 +127,13 @@
         <file>assets/sprites/Krilin/idle_1.png</file>
     </qresource>
     <qresource prefix="/sonidos">
-        <file>assets/sonidos/attack.mp3</file>
-        <file>assets/sonidos/block.m4a</file>
-        <file>assets/sonidos/combat_start.mp3</file>
         <file>assets/sonidos/landing.mp3</file>
         <file>assets/sonidos/musica_fondo.mp3</file>
-        <file>assets/sonidos/punch.mp3</file>
-        <file>assets/sonidos/running.m4a</file>
+        <file>assets/sonidos/attack.wav</file>
+        <file>assets/sonidos/block.wav</file>
+        <file>assets/sonidos/combat_start.wav</file>
+        <file>assets/sonidos/punch.wav</file>
+        <file>assets/sonidos/running.wav</file>
+        <file>assets/sonidos/jump.wav</file>
     </qresource>
 </RCC>

@@ -17,7 +17,7 @@ void Goku::usarEspecial(Personaje* objetivo) {
         return;
     }
     std::cout << getNombre() << " lanza Kamehameha!\n";
-    cambiarEstado(EstadoPersonaje::USANDO_ESPECIAL, 5);
+    cambiarEstado(EstadoPersonaje::USANDO_ESPECIAL, FRAMES_ESPECIAL);
     objetivo->recibirDanio(danoBase * 4);
     objetivo->cambiarEstado(EstadoPersonaje::ATURDIDO, 10);
     kiActual -= 50;
