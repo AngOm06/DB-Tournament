@@ -9,6 +9,8 @@ Duelo1v1::Duelo1v1(Personaje* jugador, Personaje* oponente)
     _oponente->reiniciarStats();
     _jugador->setPosicionX(40);
     _oponente->setPosicionX(110);
+    _jugador->setPosicionY(0.0f);
+    _oponente->setPosicionY(0.0f);
 }
 
 Duelo1v1::~Duelo1v1() {}

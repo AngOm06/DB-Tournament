@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>578</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="pageMenu">
      <widget class="QPushButton" name="pushButtonDuelo">
@@ -77,6 +77,19 @@
       </property>
       <property name="text">
        <string>TOURNAMENT</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnSalir">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>468</y>
+        <width>141</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>SALIR</string>
       </property>
      </widget>
     </widget>

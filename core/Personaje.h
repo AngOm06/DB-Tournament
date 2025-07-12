@@ -44,6 +44,8 @@ public:
     // Constructor principal: clona nombre y configura stats
     Personaje(const char* nombre_, int vidaInicial,
               int velX, int danoBase, int kiMaximo);
+    Personaje(const Personaje& otro);
+    Personaje& operator=(const Personaje& otro);
 
     virtual ~Personaje();
 
@@ -64,6 +66,7 @@ public:
     EstadoPersonaje getEstado() const;
     void reiniciarStats();
     void setPosicionX(int x) { posicionX = x; }
+    void setPosicionY(int y) { posicionY = y; }
 
     // Acciones básicas
     void moverIzquierda();

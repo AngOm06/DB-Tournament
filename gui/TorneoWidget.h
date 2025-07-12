@@ -25,6 +25,8 @@ private slots:
 
     void on_btnIniciar_clicked();
 
+    void on_btnSalirTorneo_clicked();
+
 private:
     Ui::TorneoWidget *ui;
     Torneo torneo;
@@ -33,9 +35,7 @@ private:
     size_t indiceDuelo;
     // Helpers de UI
     void actualizarListaParticipantes();
-    void actualizarFaseLabel();
-    void mostrarProximoOponente();
-    std::map<Personaje*, QFrame*> celdas;
+    void actualizarFase();
 };
 
 #endif // TORNEOWIDGET_H

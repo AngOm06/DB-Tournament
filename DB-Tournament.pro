@@ -1,10 +1,12 @@
-QT       += core gui widgets
+QT       += core gui widgets multimedia
 CONFIG   += c++17
 TARGET    = DB-Tournament
 TEMPLATE  = app
+CONFIG += console
 
 INCLUDEPATH += core gui
 SOURCES += \
+    core/sonidos.cpp \
     gui/CombateWidget.cpp \
     gui/CountDownWidget.cpp \
     gui/MainWindow.cpp \
@@ -28,6 +30,7 @@ SOURCES += \
     gui/TorneoWidget.cpp \
     main.cpp
 HEADERS += \
+    core/sonidos.h \
     gui/CombateWidget.h \
     gui/CountDownWidget.h \
     gui/MainWindow.h \

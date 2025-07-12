@@ -63,5 +63,76 @@
         <file>assets/sprites/Goku/super_8.png</file>
         <file>assets/sprites/Goku/block_0.png</file>
         <file>assets/sprites/Goku/block_1.png</file>
+        <file>assets/sprites/Nam/attack_0.png</file>
+        <file>assets/sprites/Nam/attack_1.png</file>
+        <file>assets/sprites/Nam/attack_2.png</file>
+        <file>assets/sprites/Nam/attack_3.png</file>
+        <file>assets/sprites/Nam/attack_4.png</file>
+        <file>assets/sprites/Nam/attack_5.png</file>
+        <file>assets/sprites/Nam/idle_1.png</file>
+        <file>assets/sprites/Nam/idle_2.png</file>
+        <file>assets/sprites/Nam/idle_3.png</file>
+        <file>assets/sprites/Nam/jump_0.png</file>
+        <file>assets/sprites/Nam/jump_1.png</file>
+        <file>assets/sprites/Nam/jump_2.png</file>
+        <file>assets/sprites/Nam/jump_3.png</file>
+        <file>assets/sprites/Nam/jump_4.png</file>
+        <file>assets/sprites/Nam/jump_5.png</file>
+        <file>assets/sprites/Nam/jump_6.png</file>
+        <file>assets/sprites/Nam/jump_7.png</file>
+        <file>assets/sprites/Nam/jump_8.png</file>
+        <file>assets/sprites/Nam/jump_9.png</file>
+        <file>assets/sprites/Nam/super_0.png</file>
+        <file>assets/sprites/Nam/super_1.png</file>
+        <file>assets/sprites/Nam/super_2.png</file>
+        <file>assets/sprites/Nam/super_3.png</file>
+        <file>assets/sprites/Nam/super_4.png</file>
+        <file>assets/sprites/Nam/super_5.png</file>
+        <file>assets/sprites/Nam/super_6.png</file>
+        <file>assets/sprites/Nam/super_7.png</file>
+        <file>assets/sprites/Nam/super_8.png</file>
+        <file>assets/sprites/Nam/walk_0.png</file>
+        <file>assets/sprites/Nam/walk_1.png</file>
+        <file>assets/sprites/Nam/walk_2.png</file>
+        <file>assets/sprites/Nam/walk_3.png</file>
+        <file>assets/sprites/Nam/idle_0.png</file>
+        <file>assets/sprites/Nam/block_0.png</file>
+        <file>assets/sprites/Giran/attack_0.png</file>
+        <file>assets/sprites/Giran/attack_1.png</file>
+        <file>assets/sprites/Giran/attack_2.png</file>
+        <file>assets/sprites/Giran/attack_3.png</file>
+        <file>assets/sprites/Giran/block_0.png</file>
+        <file>assets/sprites/Giran/idle_0.png</file>
+        <file>assets/sprites/Giran/idle_1.png</file>
+        <file>assets/sprites/Giran/idle_2.png</file>
+        <file>assets/sprites/Giran/idle_3.png</file>
+        <file>assets/sprites/Giran/jump_0.png</file>
+        <file>assets/sprites/Giran/jump_1.png</file>
+        <file>assets/sprites/Giran/jump_2.png</file>
+        <file>assets/sprites/Giran/jump_3.png</file>
+        <file>assets/sprites/Giran/jump_4.png</file>
+        <file>assets/sprites/Giran/super_0.png</file>
+        <file>assets/sprites/Giran/super_1.png</file>
+        <file>assets/sprites/Giran/super_2.png</file>
+        <file>assets/sprites/Giran/super_3.png</file>
+        <file>assets/sprites/Giran/super_4.png</file>
+        <file>assets/sprites/Giran/super_5.png</file>
+        <file>assets/sprites/Giran/super_6.png</file>
+        <file>assets/sprites/Giran/walk_0.png</file>
+        <file>assets/sprites/Giran/walk_1.png</file>
+        <file>assets/sprites/Giran/walk_2.png</file>
+        <file>assets/sprites/Giran/walk_3.png</file>
+        <file>assets/sprites/Giran/walk_4.png</file>
+        <file>assets/sprites/Krilin/idle_0.png</file>
+        <file>assets/sprites/Krilin/idle_1.png</file>
+    </qresource>
+    <qresource prefix="/sonidos">
+        <file>assets/sonidos/attack.mp3</file>
+        <file>assets/sonidos/block.m4a</file>
+        <file>assets/sonidos/combat_start.mp3</file>
+        <file>assets/sonidos/landing.mp3</file>
+        <file>assets/sonidos/musica_fondo.mp3</file>
+        <file>assets/sonidos/punch.mp3</file>
+        <file>assets/sonidos/running.m4a</file>
     </qresource>
 </RCC>

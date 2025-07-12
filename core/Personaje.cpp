@@ -1,5 +1,6 @@
 #include "Personaje.h"
 #include <algorithm>    // std::min, std::max
+#include <QDebug>
 
 // Constructor: clona nombre y configura atributos iniciales
 Personaje::Personaje(const char* nombre_, int vidaInicial,
@@ -125,4 +126,38 @@ void Personaje::reiniciarStats() {
     kiActual    = 0;
     estado      = EstadoPersonaje::IDLE;
     framesAccion = 0;
+}
+Personaje::Personaje(const Personaje& otro)
+    : vidaMax(otro.vidaMax),
+    vida(otro.vida),
+    kiActual(otro.kiActual),
+    kiMax(otro.kiMax),
+    posicionX(otro.posicionX),
+    posicionY(otro.posicionY),
+    velocidadX(otro.velocidadX),
+    velocidadY(otro.velocidadY),
+    danoBase(otro.danoBase),
+    estado(otro.estado),
+    framesAccion(otro.framesAccion)
+{
+    nombre = copiarTexto(otro.nombre);
+}
+Personaje& Personaje::operator=(const Personaje& otro) {
+    if (this != &otro) {
+        delete[] nombre;
+        nombre = copiarTexto(otro.nombre);
+
+        vidaMax = otro.vidaMax;
+        vida = otro.vida;
+        kiActual = otro.kiActual;
+        kiMax = otro.kiMax;
+        posicionX = otro.posicionX;
+        posicionY = otro.posicionY;
+        velocidadX = otro.velocidadX;
+        velocidadY = otro.velocidadY;
+        danoBase = otro.danoBase;
+        estado = otro.estado;
+        framesAccion = otro.framesAccion;
+    }
+    return *this;
 }

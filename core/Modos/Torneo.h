@@ -24,6 +24,7 @@
         const std::vector<Personaje*>& getGanadores() const;
         int getNumeroRonda() const { return rondaActual; }
         Personaje* getJugador() const { return _jugador; }
+        std::vector<Personaje*> getParticipantes() const { return participantes; }
         std::pair<Personaje*, Personaje*> obtenerDueloJugador();
         std::vector<std::pair<Personaje*,Personaje*>> generarYObtenerDuelos();
     };

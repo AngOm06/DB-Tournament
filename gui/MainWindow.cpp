@@ -222,6 +222,7 @@ void MainWindow::on_btnInicio_clicked()
         Personaje* c2 = selectedCharacter->clone();
 
         CombateWidget* cw = new CombateWidget(c1, c2);
+        cw->setAttribute(Qt::WA_DeleteOnClose);
         cw->show();
 
         break;
@@ -237,3 +238,9 @@ void MainWindow::on_btnInicio_clicked()
     currentMode = SelectMode::Tournament;
     ui->stackedWidget->setCurrentWidget(ui->pageMenu);
 }
+
+void MainWindow::on_btnSalir_clicked()
+{
+    close();
+}
+

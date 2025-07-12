@@ -10,12 +10,13 @@
 #include <QVBoxLayout>
 
 
-CombateWidget::CombateWidget(Personaje* jugador, Personaje* oponente, QWidget *parent, ModoCombate modo_)
+CombateWidget::CombateWidget(Personaje* jugador, Personaje* oponente, QWidget *parent, ModoCombate modo_, bool ownsCharacters)
     : QWidget(parent)
     , ui(new Ui::CombateWidget)
     , _jugador(jugador)
     , _oponente(oponente)
     , modo(modo_)
+    ,ownsCharacters(ownsCharacters)
 {
     ui->setupUi(this);
     ui->btnContinuar->hide();
@@ -48,10 +49,6 @@ CombateWidget::CombateWidget(Personaje* jugador, Personaje* oponente, QWidget *p
 
     // Inicializar el duelista y temporizador de frames
     duelo = new Duelo1v1(_jugador, _oponente);
-    qDebug() << "[INIT] VidaMax Jugador:" << _jugador->getVidaMax()
-             << "Vida Jugador:" << _jugador->getVida();
-    qDebug() << "[INIT] VidaMax Oponente:" << _oponente->getVidaMax()
-             << "Vida Oponente:" << _oponente->getVida();
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &CombateWidget::updateFrame);
     timer->setInterval(33);
@@ -95,8 +92,10 @@ CombateWidget::CombateWidget(Personaje* jugador, Personaje* oponente, QWidget *p
 
 CombateWidget::~CombateWidget() {
     delete duelo;
-    delete _jugador;
-    delete _oponente;
+    if (ownsCharacters) {
+        delete _jugador;
+        delete _oponente;
+    }
     delete ui;
 }
 
@@ -113,11 +112,6 @@ void CombateWidget::keyReleaseEvent(QKeyEvent* event) {
 void CombateWidget::updateFrame() {
     if (ui->stackedWidget->currentIndex() != 1)
         return;
-
-    qDebug() << "[FRAME]"
-             << "Vida Jug:" << _jugador->getVida()
-             << "Vida Opo:" << _oponente->getVida();
-
     int oldXJ = _jugador->getPosicionX();
     int oldXO = _oponente->getPosicionX();
 
@@ -157,7 +151,6 @@ void CombateWidget::updateFrame() {
     }
     else accionOponente = "idle";
 
-
     // Avanzar frame de animación cada pocos ticks
     cuentaFrames = (cuentaFrames + 1) % 4;
     if (cuentaFrames == 0) {
@@ -179,7 +172,6 @@ void CombateWidget::updateFrame() {
 void CombateWidget::paintEvent(QPaintEvent*) {
     QPainter painter(this);
 
-    // Fondo
     QPixmap fondo(":/fondos/assets/fondos/fondo_combate.png");
     if (!fondo.isNull()) {
         painter.drawPixmap(rect(), fondo);
@@ -187,7 +179,6 @@ void CombateWidget::paintEvent(QPaintEvent*) {
         painter.fillRect(rect(), Qt::black);
     }
 
-    // Base de suelo y escalado
     int yBase = height() - 30;
     const int escalaX = 5;
 
@@ -196,7 +187,6 @@ void CombateWidget::paintEvent(QPaintEvent*) {
     int yJugador = _jugador->getPosicionY();
     int yOponente = _oponente->getPosicionY();
 
-    // Sprite jugador (con dirección)
     QString accionJ = accionJugador + (jugadorMiraDerecha ? "" : "_mir");
     const auto& vecJ = animJugador.value(accionJ);
     if (!vecJ.isEmpty() && frameJugador < vecJ.size()) {
@@ -207,8 +197,6 @@ void CombateWidget::paintEvent(QPaintEvent*) {
             pm
             );
     }
-
-    // Sprite oponente (con dirección)
     QString accionO = accionOponente + (oponenteMiraDerecha ? "" : "_mir");
     const auto& vecO = animOponente.value(accionO);
     if (!vecO.isEmpty() && frameOponente < vecO.size()) {
