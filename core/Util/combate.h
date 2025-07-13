@@ -4,7 +4,7 @@
 #include "Personaje.h"
 #include <cmath>
 
-static constexpr int ANCHO_PERSONAJE  = 10;
+static constexpr int ANCHO_PERSONAJE  = 15;
 
 void procesarColision(Personaje* atacante, Personaje* defensor, bool& yaGolpeó);
 bool puedeMover(Personaje* p, Personaje* rival, bool dir);

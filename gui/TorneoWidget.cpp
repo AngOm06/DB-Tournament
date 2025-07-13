@@ -8,26 +8,17 @@
 #include <QGraphicsOpacityEffect>
 #include <random>
 
-
-// Constructor
-TorneoWidget::TorneoWidget(Personaje* jugador,
-                           const std::vector<Personaje*>& oponentes,
-                           QWidget* parent)
+TorneoWidget::TorneoWidget(Personaje* jugador, const std::vector<Personaje*>& oponentes, QWidget* parent)
     : QWidget(parent)
     , ui(new Ui::TorneoWidget)
     , torneo(jugador, oponentes)
 {
     ui->setupUi(this);
-    QFile f(":/qss/assets/qss/styles.qss");
-    if (f.open(QFile::ReadOnly | QFile::Text)) {
-        setStyleSheet(QString::fromUtf8(f.readAll()));
-    }
     torneo.iniciar();
     indiceDuelo = 0;
     onDuelosObtenidos();
 }
 
-// Destructor
 TorneoWidget::~TorneoWidget()
 {
     for (Personaje* p : torneo.getParticipantes()) {
@@ -67,9 +58,7 @@ void TorneoWidget::onDuelosObtenidos()
 
 void TorneoWidget::iniciarSiguienteDuelo()
 {
-    if (indiceDuelo >= duelosActuales.size()) {
-        return;
-    }
+    if (indiceDuelo >= duelosActuales.size()) return;
 
     Personaje* p1 = duelosActuales[indiceDuelo].first;
     Personaje* p2 = duelosActuales[indiceDuelo].second;
@@ -82,17 +71,12 @@ void TorneoWidget::iniciarSiguienteDuelo()
 }
 void TorneoWidget::onCombateTerminado(bool ganoJugador)
 {
-    if(!ganoJugador){
-         ui->stackedWidget->setCurrentWidget(ui->pagePerdedor);;
-    }
+    if(!ganoJugador) ui->stackedWidget->setCurrentWidget(ui->pagePerdedor);
     Personaje* p1 = duelosActuales[indiceDuelo].first;
     Personaje* p2 = duelosActuales[indiceDuelo].second;
     Personaje* ganador = nullptr;
-    if (p1 == torneo.getJugador()) {
-        ganador = (ganoJugador ? p1 : p2);
-    } else if (p2 == torneo.getJugador()) {
-        ganador = (ganoJugador ? p2 : p1);
-    }
+    if (p1 == torneo.getJugador()) ganador = (ganoJugador ? p1 : p2);
+    else if (p2 == torneo.getJugador()) ganador = (ganoJugador ? p2 : p1);
     torneo.registraGanador(ganador);
     ++indiceDuelo;
     /*Personaje* perdedor = (ganador == p1 ? p2 : p1);
@@ -117,18 +101,9 @@ void TorneoWidget::onCombateTerminado(bool ganoJugador)
     }
 }
 
-void TorneoWidget::on_btnSalir_clicked()
-{
-    close();
-}
-void TorneoWidget::on_btnSalirTorneo_clicked()
-{
-    close();
-}
-void TorneoWidget::on_btnIniciar_clicked()
-{
-    iniciarSiguienteDuelo();
-}
+void TorneoWidget::on_btnSalir_clicked(){close();}
+void TorneoWidget::on_btnSalirTorneo_clicked(){close();}
+void TorneoWidget::on_btnIniciar_clicked(){iniciarSiguienteDuelo();}
 
 void TorneoWidget::actualizarFase()
 {

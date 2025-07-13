@@ -10,12 +10,10 @@ SOURCES += \
     gui/CombateWidget.cpp \
     gui/CountDownWidget.cpp \
     gui/MainWindow.cpp \
-    core/Modos/Bossfight.cpp \
     core/Modos/Duelo1v1.cpp \
     core/Personajes/Bacterian.cpp \
     core/Personajes/Giran.cpp \
     core/Personajes/JackieChun.cpp \
-    core/Personajes/MonoGigante.cpp \
     core/Personajes/Nam.cpp \
     core/Personajes/Ranfan.cpp \
     core/Personajes/Yamcha.cpp \
@@ -34,9 +32,7 @@ HEADERS += \
     gui/CombateWidget.h \
     gui/CountDownWidget.h \
     gui/MainWindow.h \
-    core/Personajes/MonoGigante.h \
     core/Util/Funciones.h \
-    core/Modos/Bossfight.h \
     core/Util/Combate.h \
     core/Modos/Duelo1v1.h \
     core/Funciones.h \

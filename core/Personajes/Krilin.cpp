@@ -1,7 +1,7 @@
 #include "Krilin.h"
 
 Krilin::Krilin()
-    : Personaje("Krilin",/*vidaInicial=*/80,/*velX=*/5,/*danoBase=*/4,/*kiMaximo=*/40)
+    : Personaje("Krilin",/*vidaInicial=*/80,/*velX=*/4,/*danoBase=*/4,/*kiMaximo=*/40)
 {}
 
 void Krilin::usarEspecial(Personaje* objetivo) {

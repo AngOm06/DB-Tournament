@@ -1,11 +1,13 @@
 /* ─── Fondo general de MainWindow ─────────────────────────────── */
-QMainWindow {
+QMainWindow,
+QTorneoWidget{
   background-color: #121212;
 }
 
 /* ─── Páginas con fondo ───────────────────────────────────────── */
 QWidget#pageMenu,
-QWidget#pageSelectCharacter{
+QWidget#pageSelectCharacter,
+QWidget#pageParticipantes{
   border-image: url(:/fondos/assets/fondos/fondo_menu.png) 0 0 0 0 stretch stretch;
 }
 
@@ -40,7 +42,10 @@ QPushButton:pressed {
 
 /* ─── Título principal ───────────────────────────────────────── */
 QLabel#labelTitulo,
-QLabel#labelSubtitulo{
+QLabel#labelSubtitulo,
+QLabel#labelNombreGanador,
+QLabel#labelFase,
+QLabel#LabelPerdisteTitulo{
   font-size: 60pt;
   color: #000000;
   qproperty-alignment: 'AlignCenter';

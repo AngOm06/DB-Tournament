@@ -52,6 +52,7 @@ private:
     bool ownsCharacters;
     QString accionJugadorPrev = "idle";
     QString accionOponentePrev = "idle";
+    void procesarSonido(const QString& anterior, const QString& actual);
 
 
     // Animación

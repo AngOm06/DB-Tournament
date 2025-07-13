@@ -115,19 +115,11 @@ void CombateWidget::updateFrame() {
     int oldXJ = _jugador->getPosicionX();
     int oldXO = _oponente->getPosicionX();
 
-    // Procesar entradas múltiples (movimiento/salto/ataque)
     duelo->procesarMultiEntrada(keysPressed);
     // IA del oponente y física/collisiones
-    static int iaCounter = 0;
-    const int IA_INTERVAL = 2;
-    if (++iaCounter >= IA_INTERVAL) {
-            iaCounter = 0;
-            duelo->procesarIA();
-        }
+    duelo->procesarIA();
     duelo->actualizarFrame();
     actualizarHUD();
-
-    QString vieja = accionJugador;
 
     auto estJ = _jugador->getEstado();
     if      (estJ == EstadoPersonaje::SALTANDO)     accionJugador = "jump";
@@ -140,25 +132,7 @@ void CombateWidget::updateFrame() {
         jugadorMiraDerecha = (_jugador->getPosicionX() > oldXJ);
     }
     else accionJugador = "idle";
-    if (accionJugador != vieja) {
-        if (vieja == "walk") {
-            efectoCorrer.stop();
-        }
-        // al entrar en “walk”, lanzar loop
-        if (accionJugador == "walk") {
-            efectoCorrer.play();
-        }
-        if (accionJugador == "attack")
-            efectoAtaque.play();
-        else if (accionJugador == "block")
-            efectoBloqueo.play();
-        else if (accionJugador == "jump")
-            efectoSalto.play();
-        else if (accionJugador == "super")
-            efectoGolpe.play();
-    }
 
-    QString viejaO = accionOponente;
     auto estO = _oponente->getEstado();
     if      (estO == EstadoPersonaje::SALTANDO)           accionOponente = "jump";
     else if (estO == EstadoPersonaje::ATACANDO)           accionOponente = "attack";
@@ -169,26 +143,13 @@ void CombateWidget::updateFrame() {
         oponenteMiraDerecha = (_oponente->getPosicionX() > oldXO);
     }
     else accionOponente = "idle";
-    if (accionOponente != vieja) {
-        if (vieja == "walk") {
-            efectoCorrer.stop();
-        }
-        // al entrar en “walk”, lanzar loop
-        if (accionOponente == "walk") {
-            efectoCorrer.play();
-        }
-        if (accionOponente == "attack")
-            efectoAtaque.play();
-        else if (accionOponente == "block")
-            efectoBloqueo.play();
-        else if (accionOponente == "jump")
-            efectoSalto.play();
-        else if (accionOponente == "super")
-            efectoGolpe.play();
-    }
 
+    procesarSonido(accionJugadorPrev, accionJugador);
+    procesarSonido(accionOponentePrev, accionOponente);
 
-    // Avanzar frame de animación cada pocos ticks
+    accionJugadorPrev = accionJugador;
+    accionOponentePrev = accionOponente;
+
     cuentaFrames = (cuentaFrames + 1) % 4;
     if (cuentaFrames == 0) {
         const auto& aniJ = animJugador.value(accionJugador);
@@ -204,7 +165,7 @@ void CombateWidget::updateFrame() {
             mostrarResultado();
             return;
         }
-    update(); // repaint del widget
+    update();
     }
 void CombateWidget::paintEvent(QPaintEvent*) {
     QPainter painter(this);
@@ -270,15 +231,7 @@ void CombateWidget::iniciarCombate() {
 void CombateWidget::mostrarResultado() {
     timer->stop();
     QString texto;
-
-    if (_jugador->getVida() <= 0 && _oponente->getVida() <= 0) {
-        texto = "Empate";
-    } else if (duelo->ganoJugador()) {
-        texto = _jugador->getNombre();
-    } else {
-        texto = _oponente->getNombre();
-    }
-
+    texto = (duelo->ganoJugador() ? _jugador->getNombre() : _oponente->getNombre());
     ui->labelResultado->setText(QStringLiteral("GANADOR: %1").arg(texto));
 
     if (modo == ModoCombate::Duelo) {
@@ -310,7 +263,16 @@ void CombateWidget::reiniciarCombate() {
         ui->countDownWidget->start();
 }
 
-
+void CombateWidget::procesarSonido(const QString& anterior, const QString& actual) {
+    // Si cambiamos de "walk", paramos el loop
+    if (anterior == "walk" && actual != "walk")
+        efectoCorrer.stop();
+    if (actual == "walk")   efectoCorrer.play();
+    else if (actual == "attack")    efectoAtaque.play();
+    else if (actual == "block")    efectoBloqueo.play();
+    else if (actual == "jump")    efectoSalto.play();
+    else if (actual == "super")    efectoGolpe.play();
+}
 void CombateWidget::on_btnRevancha_clicked()
 {
     reiniciarCombate();

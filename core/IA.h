@@ -2,10 +2,8 @@
 #define IA_H
 
 #include "Personaje.h"
-#include "Personajes/MonoGigante.h"
-
-void ejecutarIAOozaru(MonoGigante* jefe, Personaje* jugador);
-
+enum class IAAccion {Ninguna,MoverIzq,MoverDer,Atacar,Defender,Saltar,Especial
+};
 void ejecutarIA(Personaje* cpu, Personaje* jugador);
 
 #endif // IA_H
