@@ -2,7 +2,7 @@
 #include <iostream>
 
 Ranfan::Ranfan()
-    : Personaje("Ranfan", 60, 6, 5, 50)
+    : Personaje("Ranfan", 60, 3, 5, 50)
 {}
 
 void Ranfan::usarEspecial(Personaje* objetivo) {

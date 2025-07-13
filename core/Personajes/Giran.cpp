@@ -2,7 +2,7 @@
 #include <iostream>
 
 Giran::Giran()
-    : Personaje("Giran", 95, 3, 8, 30)
+    : Personaje("Giran", 95, 2, 6, 30)
 {}
 
 void Giran::usarEspecial(Personaje* objetivo) {

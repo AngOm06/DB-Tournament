@@ -238,14 +238,14 @@
     <widget class="QPushButton" name="btnContinuar">
      <property name="geometry">
       <rect>
-       <x>290</x>
+       <x>300</x>
        <y>350</y>
        <width>211</width>
        <height>81</height>
       </rect>
      </property>
      <property name="text">
-      <string/>
+      <string>CONTINUAR</string>
      </property>
     </widget>
    </widget>

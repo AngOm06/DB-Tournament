@@ -20,7 +20,7 @@ class CombateWidget;
 class CombateWidget : public QWidget {
     Q_OBJECT
 public:
-    CombateWidget(Personaje* jugador, Personaje* oponente, QWidget *parent = nullptr, ModoCombate modo_ = ModoCombate::Duelo);
+    CombateWidget(Personaje* jugador, Personaje* oponente, QWidget *parent = nullptr, ModoCombate modo_ = ModoCombate::Duelo,bool ownsCharacters = true);
     ~CombateWidget();
 signals:
     void combateTerminado(bool ganoJugador);
@@ -49,6 +49,11 @@ private:
     QTimer *timer;
     QSet<int> keysPressed;
     ModoCombate modo = ModoCombate::Duelo;
+    bool ownsCharacters;
+    QString accionJugadorPrev = "idle";
+    QString accionOponentePrev = "idle";
+    void procesarSonido(const QString& anterior, const QString& actual);
+
 
     // Animación
     QMap<QString, QVector<QPixmap>> animJugador, animOponente;

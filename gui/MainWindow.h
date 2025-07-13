@@ -37,6 +37,8 @@ private slots:
     void on_btnInicio_clicked();
     void on_btnCancel_clicked();
 
+    void on_btnSalir_clicked();
+
 private:
     Ui::MainWindow *ui;
 

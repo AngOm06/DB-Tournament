@@ -1,7 +1,7 @@
 #include "CombateWidget.h"
 #include "ui_CombateWidget.h"
 #include "core/Personaje.h"
-
+#include "sonidos.h"
 #include <QPainter>
 #include <QKeyEvent>
 #include <QPixmap>
@@ -10,15 +10,17 @@
 #include <QVBoxLayout>
 
 
-CombateWidget::CombateWidget(Personaje* jugador, Personaje* oponente, QWidget *parent, ModoCombate modo_)
+CombateWidget::CombateWidget(Personaje* jugador, Personaje* oponente, QWidget *parent, ModoCombate modo_, bool ownsCharacters)
     : QWidget(parent)
     , ui(new Ui::CombateWidget)
     , _jugador(jugador)
     , _oponente(oponente)
     , modo(modo_)
+    ,ownsCharacters(ownsCharacters)
 {
     ui->setupUi(this);
     ui->btnContinuar->hide();
+    reproducirMusicaCombate();
 
     QFile f(":/qss/assets/qss/combate.qss");
     if (f.open(QFile::ReadOnly | QFile::Text)) {
@@ -48,10 +50,6 @@ CombateWidget::CombateWidget(Personaje* jugador, Personaje* oponente, QWidget *p
 
     // Inicializar el duelista y temporizador de frames
     duelo = new Duelo1v1(_jugador, _oponente);
-    qDebug() << "[INIT] VidaMax Jugador:" << _jugador->getVidaMax()
-             << "Vida Jugador:" << _jugador->getVida();
-    qDebug() << "[INIT] VidaMax Oponente:" << _oponente->getVidaMax()
-             << "Vida Oponente:" << _oponente->getVida();
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &CombateWidget::updateFrame);
     timer->setInterval(33);
@@ -95,8 +93,10 @@ CombateWidget::CombateWidget(Personaje* jugador, Personaje* oponente, QWidget *p
 
 CombateWidget::~CombateWidget() {
     delete duelo;
-    delete _jugador;
-    delete _oponente;
+    if (ownsCharacters) {
+        delete _jugador;
+        delete _oponente;
+    }
     delete ui;
 }
 
@@ -113,33 +113,21 @@ void CombateWidget::keyReleaseEvent(QKeyEvent* event) {
 void CombateWidget::updateFrame() {
     if (ui->stackedWidget->currentIndex() != 1)
         return;
-
-    qDebug() << "[FRAME]"
-             << "Vida Jug:" << _jugador->getVida()
-             << "Vida Opo:" << _oponente->getVida();
-
     int oldXJ = _jugador->getPosicionX();
     int oldXO = _oponente->getPosicionX();
 
-    // Procesar entradas múltiples (movimiento/salto/ataque)
     duelo->procesarMultiEntrada(keysPressed);
     // IA del oponente y física/collisiones
-    // 2) IA: sólo cada 10 frames para que no sea rapidísima
-    static int iaCounter = 0;
-    const int IA_INTERVAL = 2;
-    if (++iaCounter >= IA_INTERVAL) {
-            iaCounter = 0;
-            duelo->procesarIA();
-        }
+    duelo->procesarIA();
     duelo->actualizarFrame();
     actualizarHUD();
 
-    // tras procesar entrada, IA y física…
     auto estJ = _jugador->getEstado();
-    if      (estJ == EstadoPersonaje::SALTANDO)           accionJugador = "jump";
-    else if (estJ == EstadoPersonaje::ATACANDO)           accionJugador = "attack";
+    if      (estJ == EstadoPersonaje::SALTANDO)     accionJugador = "jump";
+    else if (estJ == EstadoPersonaje::ATACANDO)     accionJugador = "attack";
     else if (estJ == EstadoPersonaje::USANDO_ESPECIAL)    accionJugador = "super";
-    else if (estJ == EstadoPersonaje::DEFENDIENDO)     accionJugador = "block";
+    else if (estJ == EstadoPersonaje::DEFENDIENDO)  accionJugador = "block";
+
     else if (_jugador->getPosicionX() != oldXJ) {
         accionJugador = "walk";
         jugadorMiraDerecha = (_jugador->getPosicionX() > oldXJ);
@@ -157,8 +145,12 @@ void CombateWidget::updateFrame() {
     }
     else accionOponente = "idle";
 
+    procesarSonido(accionJugadorPrev, accionJugador);
+    procesarSonido(accionOponentePrev, accionOponente);
 
-    // Avanzar frame de animación cada pocos ticks
+    accionJugadorPrev = accionJugador;
+    accionOponentePrev = accionOponente;
+
     cuentaFrames = (cuentaFrames + 1) % 4;
     if (cuentaFrames == 0) {
         const auto& aniJ = animJugador.value(accionJugador);
@@ -174,12 +166,11 @@ void CombateWidget::updateFrame() {
             mostrarResultado();
             return;
         }
-    update(); // repaint del widget
+    update();
     }
 void CombateWidget::paintEvent(QPaintEvent*) {
     QPainter painter(this);
 
-    // Fondo
     QPixmap fondo(":/fondos/assets/fondos/fondo_combate.png");
     if (!fondo.isNull()) {
         painter.drawPixmap(rect(), fondo);
@@ -187,7 +178,6 @@ void CombateWidget::paintEvent(QPaintEvent*) {
         painter.fillRect(rect(), Qt::black);
     }
 
-    // Base de suelo y escalado
     int yBase = height() - 30;
     const int escalaX = 5;
 
@@ -196,7 +186,6 @@ void CombateWidget::paintEvent(QPaintEvent*) {
     int yJugador = _jugador->getPosicionY();
     int yOponente = _oponente->getPosicionY();
 
-    // Sprite jugador (con dirección)
     QString accionJ = accionJugador + (jugadorMiraDerecha ? "" : "_mir");
     const auto& vecJ = animJugador.value(accionJ);
     if (!vecJ.isEmpty() && frameJugador < vecJ.size()) {
@@ -207,8 +196,6 @@ void CombateWidget::paintEvent(QPaintEvent*) {
             pm
             );
     }
-
-    // Sprite oponente (con dirección)
     QString accionO = accionOponente + (oponenteMiraDerecha ? "" : "_mir");
     const auto& vecO = animOponente.value(accionO);
     if (!vecO.isEmpty() && frameOponente < vecO.size()) {
@@ -232,6 +219,7 @@ void CombateWidget::actualizarHUD() {
 
 void CombateWidget::iniciarCombate() {
     ui->stackedWidget->setCurrentIndex(1);
+    efectoCombate.play();
     QCoreApplication::processEvents();
     keysPressed.clear();
     _jugador->reiniciarStats();
@@ -244,15 +232,7 @@ void CombateWidget::iniciarCombate() {
 void CombateWidget::mostrarResultado() {
     timer->stop();
     QString texto;
-
-    if (_jugador->getVida() <= 0 && _oponente->getVida() <= 0) {
-        texto = "Empate";
-    } else if (duelo->ganoJugador()) {
-        texto = _jugador->getNombre();
-    } else {
-        texto = _oponente->getNombre();
-    }
-
+    texto = (duelo->ganoJugador() ? _jugador->getNombre() : _oponente->getNombre());
     ui->labelResultado->setText(QStringLiteral("GANADOR: %1").arg(texto));
 
     if (modo == ModoCombate::Duelo) {
@@ -284,7 +264,17 @@ void CombateWidget::reiniciarCombate() {
         ui->countDownWidget->start();
 }
 
-
+void CombateWidget::procesarSonido(const QString& anterior, const QString& actual) {
+    if (anterior == "walk" && actual != "walk")
+        efectoCorrer.stop();
+    if (anterior == actual)
+        return;
+    if (actual == "walk")   efectoCorrer.play();
+    else if (actual == "attack")    efectoAtaque.play();
+    else if (actual == "block")    efectoBloqueo.play();
+    else if (actual == "jump")    efectoSalto.play();
+    else if (actual == "super")    efectoGolpe.play();
+}
 void CombateWidget::on_btnRevancha_clicked()
 {
     reiniciarCombate();
@@ -310,7 +300,6 @@ void CombateWidget::on_btnContinuar_clicked()
     } else {
         emit combateTerminado(false);
     }
-
     close();
 }
 

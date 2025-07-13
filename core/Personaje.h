@@ -7,10 +7,11 @@
 // Constantes de escenario y mecánicas
 static constexpr int MAX_X = 150;
 static constexpr int MIN_X = 0;
-static constexpr int ALCANCE_ATAQUE = 15;
+static constexpr int ALCANCE_ATAQUE = 16;
 static constexpr int ALCANCE_ESPECIAL = 80;
 static constexpr int FRAMES_ATACAR = 8;
 static constexpr int FRAMES_DEFENDER = 5;
+static constexpr int FRAMES_ESPECIAL = 20;
 static constexpr float GRAVEDAD = 2.0f;    // unidades de velocidad vertical por frame
 
 // Estados posibles del personaje en el combate
@@ -44,6 +45,8 @@ public:
     // Constructor principal: clona nombre y configura stats
     Personaje(const char* nombre_, int vidaInicial,
               int velX, int danoBase, int kiMaximo);
+    Personaje(const Personaje& otro);
+    Personaje& operator=(const Personaje& otro);
 
     virtual ~Personaje();
 
@@ -64,6 +67,7 @@ public:
     EstadoPersonaje getEstado() const;
     void reiniciarStats();
     void setPosicionX(int x) { posicionX = x; }
+    void setPosicionY(int y) { posicionY = y; }
 
     // Acciones básicas
     void moverIzquierda();

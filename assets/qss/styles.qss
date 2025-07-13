@@ -1,5 +1,6 @@
 /* ─── Fondo general de MainWindow ─────────────────────────────── */
-QMainWindow {
+QMainWindow,
+QTorneoWidget{
   background-color: #121212;
 }
 
@@ -8,7 +9,15 @@ QWidget#pageMenu,
 QWidget#pageSelectCharacter{
   border-image: url(:/fondos/assets/fondos/fondo_menu.png) 0 0 0 0 stretch stretch;
 }
-
+QWidget#pageParticipantes{
+  border-image: url(:/fondos/assets/fondos/fondo_torneo.png) 0 0 0 0 stretch stretch;
+}
+QWidget#pageGanador{
+  border-image: url(:/fondos/assets/fondos/fondo_campeon.png) 0 0 0 0 stretch stretch;
+}
+QWidget#pagePerdedor{
+  border-image: url(:/fondos/assets/fondos/fondo_perdedor.png) 0 0 0 0 stretch stretch;
+}
 /* ─── Botones ───────────────────────── */
 QPushButton {
   color: #000000;
@@ -40,11 +49,13 @@ QPushButton:pressed {
 
 /* ─── Título principal ───────────────────────────────────────── */
 QLabel#labelTitulo,
-QLabel#labelSubtitulo{
+QLabel#labelSubtitulo,
+QLabel#labelNombreGanador,
+QLabel#labelFase,
+QLabel#LabelPerdisteTitulo{
   font-size: 60pt;
   color: #000000;
   qproperty-alignment: 'AlignCenter';
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
 }
 
 /* ─── Galería scroll ───────────────────────────────────────────── */

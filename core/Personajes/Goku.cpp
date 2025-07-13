@@ -2,7 +2,7 @@
 #include <iostream>
 
 Goku::Goku()
-    : Personaje("Goku", /*vida*/100, /*velX*/3, /*danoBase*/4, /*kiMax*/50)
+    : Personaje("Goku", /*vida*/100, /*velX*/4, /*danoBase*/40, /*kiMax*/50)
 {}
 
 // Kamehameha: daño 2× base y aturde 1 frame al rival
@@ -17,7 +17,7 @@ void Goku::usarEspecial(Personaje* objetivo) {
         return;
     }
     std::cout << getNombre() << " lanza Kamehameha!\n";
-    cambiarEstado(EstadoPersonaje::USANDO_ESPECIAL, 5);
+    cambiarEstado(EstadoPersonaje::USANDO_ESPECIAL, FRAMES_ESPECIAL);
     objetivo->recibirDanio(danoBase * 4);
     objetivo->cambiarEstado(EstadoPersonaje::ATURDIDO, 10);
     kiActual -= 50;
