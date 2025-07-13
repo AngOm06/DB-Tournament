@@ -76,11 +76,13 @@ void TorneoWidget::iniciarSiguienteDuelo()
 }
 void TorneoWidget::onCombateTerminado(bool ganoJugador)
 {
+    musica->stop();
     if(!ganoJugador){
         ui->stackedWidget->setCurrentWidget(ui->pagePerdedor);
         reproducirMusicaDerrota();
+        return;
     }
-    musica->stop();
+
     Personaje* p1 = duelosActuales[indiceDuelo].first;
     Personaje* p2 = duelosActuales[indiceDuelo].second;
     Personaje* ganador = nullptr;

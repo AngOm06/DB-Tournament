@@ -1,24 +1,20 @@
 #include "Goku.h"
-#include <iostream>
 
 Goku::Goku()
     : Personaje("Goku", /*vida*/100, /*velX*/4, /*danoBase*/40, /*kiMax*/50)
 {}
 
-// Kamehameha: daño 2× base y aturde 1 frame al rival
+//Daño base x5, pero Goku queda aturdido por unos frames
 void Goku::usarEspecial(Personaje* objetivo) {
-    if (!objetivo || !objetivo->getVida()>0) return;
-    if (estado != EstadoPersonaje::IDLE) {
-        std::cout << getNombre() << " esta ocupado.\n";
-        return;
-    }
-    if (kiActual < 50) {
-        std::cout << getNombre() << " no tiene suficiente Ki.\n";
-        return;
-    }
-    std::cout << getNombre() << " lanza Kamehameha!\n";
+    if (!objetivo || objetivo->getVida() <= 0) return;
+    if (estado != EstadoPersonaje::IDLE) return;
+    if (kiActual < 50) return;
+
     cambiarEstado(EstadoPersonaje::USANDO_ESPECIAL, FRAMES_ESPECIAL);
-    objetivo->recibirDanio(danoBase * 4);
-    objetivo->cambiarEstado(EstadoPersonaje::ATURDIDO, 10);
+
+    objetivo->recibirDanio(danoBase * 5);
+
+    cambiarEstado(EstadoPersonaje::ATURDIDO, 20);
+
     kiActual -= 50;
 }

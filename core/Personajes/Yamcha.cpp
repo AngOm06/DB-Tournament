@@ -1,17 +1,18 @@
 #include "Yamcha.h"
-#include <iostream>
 
 Yamcha::Yamcha()
-    : Personaje("Yamcha", 90, 4, 5, 30)
+    :Personaje("Yamcha", /*vida*/90, /*velX*/4, /*danoBase*/5, /*kiMax*/30)
 {}
 
+//Daño base x3 y aturde al rival
 void Yamcha::usarEspecial(Personaje* objetivo) {
     if (!objetivo || objetivo->getVida() <= 0) return;
-    if (getKi() < 15) {
-        std::cout << getNombre() << " no tiene suficiente Ki para Rohan.\n";
-        return;
-    }
-    std::cout << getNombre() << " usa Rohan!\n";
-    objetivo->recibirDanio(getDanoBase() * 3);
-    recuperarKi(-15);
+    if (kiActual < 15) return;
+
+    cambiarEstado(EstadoPersonaje::USANDO_ESPECIAL, FRAMES_ESPECIAL);
+
+    objetivo->recibirDanio(danoBase * 3);
+    objetivo->cambiarEstado(EstadoPersonaje::ATURDIDO, 25);
+
+    kiActual -= 15;
 }
