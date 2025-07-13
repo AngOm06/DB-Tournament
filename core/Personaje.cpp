@@ -51,6 +51,7 @@ EstadoPersonaje   Personaje::getEstado()   const { return estado; }
 
 // Acciones de movimiento y postura
 void Personaje::moverIzquierda() {
+    if (estado == EstadoPersonaje::ATURDIDO) return;
     if (estado != EstadoPersonaje::ATACANDO) {
         posicionX = std::max(MIN_X, posicionX - velocidadX);
         if (estado != EstadoPersonaje::SALTANDO)
@@ -59,6 +60,7 @@ void Personaje::moverIzquierda() {
 }
 
 void Personaje::moverDerecha() {
+    if (estado == EstadoPersonaje::ATURDIDO) return;
     if (estado != EstadoPersonaje::ATACANDO) {
         posicionX = std::min(MAX_X, posicionX + velocidadX);
         if (estado != EstadoPersonaje::SALTANDO)

@@ -16,6 +16,7 @@ Duelo1v1::Duelo1v1(Personaje* jugador, Personaje* oponente)
 Duelo1v1::~Duelo1v1() {}
 
 void Duelo1v1::procesarIA() {
+    if (_oponente->getEstado() == EstadoPersonaje::ATURDIDO) return;
     ejecutarIA(_oponente, _jugador);
 }
 
@@ -36,22 +37,21 @@ void Duelo1v1::actualizarFrame() {
 
 
 void Duelo1v1::procesarMultiEntrada(const QSet<int>& teclas) {
-    // 1) Salto al presionar W (si está en el suelo)
+    if (_jugador->getEstado() == EstadoPersonaje::ATURDIDO)
+        return;
     if (teclas.contains(Qt::Key_W) && _jugador->getPosicionY() == 0.0f) {
         _jugador->saltar();
     }
-    // 2) Movimiento lateral si no hay bloqueo
     if (teclas.contains(Qt::Key_A) && puedeMover(_jugador, _oponente, false)) {
         _jugador->moverIzquierda();
     }
     if (teclas.contains(Qt::Key_D) && puedeMover(_jugador, _oponente, true)) {
         _jugador->moverDerecha();
     }
-    // 3) Acciones de combate
     if (teclas.contains(Qt::Key_J)) _jugador->atacar();
     if (teclas.contains(Qt::Key_K)) _jugador->defender();
     if (teclas.contains(Qt::Key_L)) _jugador->usarEspecial(_oponente);
-    // 4) Salida rápida (Key Q hace que el jugador pierda)
+
     if (teclas.contains(Qt::Key_Q)) {
         _jugador->cambiarEstado(EstadoPersonaje::IDLE, 0);
         _jugador->recibirDanio(_jugador->getVida());

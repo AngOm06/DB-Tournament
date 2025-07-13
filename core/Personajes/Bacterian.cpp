@@ -1,17 +1,18 @@
 #include "Bacterian.h"
-#include <iostream>
 
 Bacterian::Bacterian()
-    : Personaje("Bacterian", 70, 2, 7, 25)
+    : Personaje("Bacterian", 70, 2, 7, 30)
 {}
 
+//Daño base x3 y aturde al rival
 void Bacterian::usarEspecial(Personaje* objetivo) {
     if (!objetivo || objetivo->getVida() <= 0) return;
-    if (getKi() < 12) {
-        std::cout << getNombre() << " no tiene suficiente Ki para Eructo Toxico.\n";
-        return;
-    }
-    std::cout << getNombre() << " usa Eructo Toxico!\n";
-    objetivo->recibirDanio(getDanoBase() * 4);
-    recuperarKi(-12);
+    if (kiActual < 30) return;
+
+    cambiarEstado(EstadoPersonaje::USANDO_ESPECIAL, FRAMES_ESPECIAL);
+
+    objetivo->recibirDanio(danoBase * 3);
+    objetivo->cambiarEstado(EstadoPersonaje::ATURDIDO, 30);
+
+    kiActual -= 30;
 }

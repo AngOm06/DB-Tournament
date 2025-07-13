@@ -1,18 +1,18 @@
 #include "Ranfan.h"
-#include <iostream>
 
 Ranfan::Ranfan()
-    : Personaje("Ranfan", 60, 3, 5, 50)
+    :Personaje("Ranfan", /*vida*/60, /*velX*/3, /*danoBase*/5, /*kiMax*/50)
 {}
 
+//Daño base x4 pero Ranfan queda aturdida
 void Ranfan::usarEspecial(Personaje* objetivo) {
     if (!objetivo || objetivo->getVida() <= 0) return;
-    if (getKi() < 20) {
-        std::cout << getNombre() << " no puede usar Zambombazo.\n";
-        return;
-    }
-    std::cout << getNombre() << " lanza Zambombazo!\n";
-    objetivo->recibirDanio(getDanoBase() * 3);
-    cambiarEstado(EstadoPersonaje::ATURDIDO, 1);
-    recuperarKi(-20);
+    if (kiActual < 20) return;
+
+    cambiarEstado(EstadoPersonaje::USANDO_ESPECIAL, FRAMES_ESPECIAL);
+
+    objetivo->recibirDanio(danoBase * 4);
+    cambiarEstado(EstadoPersonaje::ATURDIDO, 15);
+
+    kiActual -= 20;
 }

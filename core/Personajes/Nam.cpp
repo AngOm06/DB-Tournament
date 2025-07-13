@@ -1,17 +1,17 @@
 #include "Nam.h"
-#include <iostream>
 
 Nam::Nam()
-    : Personaje("Nam", 75, 3, 5, 35)
+    :Personaje("Nam", /*vida*/75, /*velX*/3, /*danoBase*/5, /*kiMax*/35)
 {}
 
+//Daño base x3
 void Nam::usarEspecial(Personaje* objetivo) {
     if (!objetivo || objetivo->getVida() <= 0) return;
-    if (getKi() < 18) {
-        std::cout << getNombre() << " no puede usar Onda Mortal.\n";
-        return;
-    }
-    std::cout << getNombre() << " lanza Onda Mortal!\n";
-    objetivo->recibirDanio(getDanoBase() * 3);
-    recuperarKi(-18);
+    if (kiActual < 35) return;
+
+    cambiarEstado(EstadoPersonaje::USANDO_ESPECIAL, FRAMES_ESPECIAL);
+
+    objetivo->recibirDanio(danoBase * 3);
+
+    kiActual -= 35;
 }

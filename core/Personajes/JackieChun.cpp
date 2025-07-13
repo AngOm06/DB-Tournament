@@ -1,17 +1,18 @@
 #include "JackieChun.h"
-#include <iostream>
 
 JackieChun::JackieChun()
-    : Personaje("JackieChun", 85, 4, 6, 40)
+    :Personaje("JackieChun", /*vida*/85, /*velX*/4, /*danoBase*/6, /*kiMax*/40)
 {}
 
+//Daño base x3 y aturde al rival
 void JackieChun::usarEspecial(Personaje* objetivo) {
     if (!objetivo || objetivo->getVida() <= 0) return;
-    if (getKi() < 20) {
-        std::cout << getNombre() << " no puede usar Reversa de Sabio.\n";
-        return;
-    }
-    std::cout << getNombre() << " lanza Reversa de Sabio!\n";
-    objetivo->recibirDanio(getDanoBase() * 2);
-    recuperarKi(-20);
+    if (kiActual < 40) return;
+
+    cambiarEstado(EstadoPersonaje::USANDO_ESPECIAL, FRAMES_ESPECIAL);
+
+    objetivo->recibirDanio(danoBase * 3);
+    objetivo->cambiarEstado(EstadoPersonaje::ATURDIDO, 20);
+
+    kiActual -= 40;
 }
