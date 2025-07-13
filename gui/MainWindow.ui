@@ -82,8 +82,8 @@
      <widget class="QPushButton" name="btnSalir">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>468</y>
+        <x>10</x>
+        <y>490</y>
         <width>141</width>
         <height>51</height>
        </rect>

@@ -7,6 +7,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    qDebug() << "Plugins path:" << QCoreApplication::libraryPaths();
+
 
     int fontId = QFontDatabase::addApplicationFont(":/fonts/assets/fonts/Saiyan-sans.ttf");
     if (fontId >= 0) {

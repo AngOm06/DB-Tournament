@@ -1,5 +1,6 @@
 #include "TorneoWidget.h"
 #include "ui_TorneoWidget.h"
+#include "sonidos.h"
 #include <QFrame>
 #include <QVBoxLayout>
 #include <QLabel>
@@ -63,15 +64,23 @@ void TorneoWidget::iniciarSiguienteDuelo()
     Personaje* p1 = duelosActuales[indiceDuelo].first;
     Personaje* p2 = duelosActuales[indiceDuelo].second;
 
+    this->hide();
     CombateWidget* combate = new CombateWidget(p1, p2,nullptr, ModoCombate::Torneo, false);
     combate->setAttribute(Qt::WA_DeleteOnClose);
     connect(combate, &CombateWidget::combateTerminado,
             this, &TorneoWidget::onCombateTerminado);
+    connect(combate, &QObject::destroyed, this, [this]() {
+        this->show();
+    });
     combate->show();
 }
 void TorneoWidget::onCombateTerminado(bool ganoJugador)
 {
-    if(!ganoJugador) ui->stackedWidget->setCurrentWidget(ui->pagePerdedor);
+    if(!ganoJugador){
+        ui->stackedWidget->setCurrentWidget(ui->pagePerdedor);
+        reproducirMusicaDerrota();
+    }
+    musica->stop();
     Personaje* p1 = duelosActuales[indiceDuelo].first;
     Personaje* p2 = duelosActuales[indiceDuelo].second;
     Personaje* ganador = nullptr;
@@ -91,9 +100,7 @@ void TorneoWidget::onCombateTerminado(bool ganoJugador)
             Personaje* campeon = torneo.getCampeon();
             if(campeon==torneo.getJugador()){
                 ui->stackedWidget->setCurrentWidget(ui->pageGanador);
-                QString textoCampeon = QString("CAMPEON: %1").arg(campeon->getNombre());
-                ui->labelNombreGanador->setText(textoCampeon);
-
+                reproducirMusicaVictoria();
                 QPixmap portada(QString(":/portadas/assets/portadas/%1.png").arg(campeon->getNombre()));
                 ui->labelPortadaGanador->setPixmap(portada.scaled(302, 242, Qt::KeepAspectRatio, Qt::SmoothTransformation));
             }
@@ -108,6 +115,7 @@ void TorneoWidget::on_btnIniciar_clicked(){iniciarSiguienteDuelo();}
 void TorneoWidget::actualizarFase()
 {
     QString textoFase = QString("Fase %1").arg(torneo.getNumeroRonda() + 1);
+    efectoTorneo.play();
     ui->labelFase->setText(textoFase);
     const std::vector<Personaje*>& participantes = torneo.getParticipantes();
     int ronda = torneo.getNumeroRonda();

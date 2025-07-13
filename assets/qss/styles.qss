@@ -6,11 +6,18 @@ QTorneoWidget{
 
 /* ─── Páginas con fondo ───────────────────────────────────────── */
 QWidget#pageMenu,
-QWidget#pageSelectCharacter,
-QWidget#pageParticipantes{
+QWidget#pageSelectCharacter{
   border-image: url(:/fondos/assets/fondos/fondo_menu.png) 0 0 0 0 stretch stretch;
 }
-
+QWidget#pageParticipantes{
+  border-image: url(:/fondos/assets/fondos/fondo_torneo.png) 0 0 0 0 stretch stretch;
+}
+QWidget#pageGanador{
+  border-image: url(:/fondos/assets/fondos/fondo_campeon.png) 0 0 0 0 stretch stretch;
+}
+QWidget#pagePerdedor{
+  border-image: url(:/fondos/assets/fondos/fondo_perdedor.png) 0 0 0 0 stretch stretch;
+}
 /* ─── Botones ───────────────────────── */
 QPushButton {
   color: #000000;

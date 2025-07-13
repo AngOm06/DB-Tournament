@@ -12,6 +12,9 @@
     <qresource prefix="/fondos">
         <file>assets/fondos/fondo_menu.png</file>
         <file>assets/fondos/fondo_combate.png</file>
+        <file>assets/fondos/fondo_torneo.png</file>
+        <file>assets/fondos/fondo_campeon.png</file>
+        <file>assets/fondos/fondo_perdedor.png</file>
     </qresource>
     <qresource prefix="/fonts">
         <file>assets/fonts/Saiyan-sans.ttf</file>
@@ -125,9 +128,35 @@
         <file>assets/sprites/Giran/walk_4.png</file>
         <file>assets/sprites/Krilin/idle_0.png</file>
         <file>assets/sprites/Krilin/idle_1.png</file>
+        <file>assets/sprites/Yamcha/attack_0.png</file>
+        <file>assets/sprites/Yamcha/attack_1.png</file>
+        <file>assets/sprites/Yamcha/attack_2.png</file>
+        <file>assets/sprites/Yamcha/attack_3.png</file>
+        <file>assets/sprites/Yamcha/attack_4.png</file>
+        <file>assets/sprites/Yamcha/block_0.png</file>
+        <file>assets/sprites/Yamcha/idle_0.png</file>
+        <file>assets/sprites/Yamcha/idle_1.png</file>
+        <file>assets/sprites/Yamcha/idle_2.png</file>
+        <file>assets/sprites/Yamcha/idle_3.png</file>
+        <file>assets/sprites/Yamcha/jump_0.png</file>
+        <file>assets/sprites/Yamcha/jump_1.png</file>
+        <file>assets/sprites/Yamcha/jump_2.png</file>
+        <file>assets/sprites/Yamcha/jump_3.png</file>
+        <file>assets/sprites/Yamcha/jump_4.png</file>
+        <file>assets/sprites/Yamcha/jump_5.png</file>
+        <file>assets/sprites/Yamcha/super_0.png</file>
+        <file>assets/sprites/Yamcha/super_1.png</file>
+        <file>assets/sprites/Yamcha/super_2.png</file>
+        <file>assets/sprites/Yamcha/super_3.png</file>
+        <file>assets/sprites/Yamcha/super_4.png</file>
+        <file>assets/sprites/Yamcha/super_5.png</file>
+        <file>assets/sprites/Yamcha/super_6.png</file>
+        <file>assets/sprites/Yamcha/super_7.png</file>
+        <file>assets/sprites/Yamcha/walk_0.png</file>
+        <file>assets/sprites/Yamcha/walk_1.png</file>
+        <file>assets/sprites/Yamcha/walk_2.png</file>
     </qresource>
     <qresource prefix="/sonidos">
-        <file>assets/sonidos/landing.mp3</file>
         <file>assets/sonidos/musica_fondo.mp3</file>
         <file>assets/sonidos/attack.wav</file>
         <file>assets/sonidos/block.wav</file>
@@ -135,5 +164,9 @@
         <file>assets/sonidos/punch.wav</file>
         <file>assets/sonidos/running.wav</file>
         <file>assets/sonidos/jump.wav</file>
+        <file>assets/sonidos/champion.mp3</file>
+        <file>assets/sonidos/combat.mp3</file>
+        <file>assets/sonidos/defeat.mp3</file>
+        <file>assets/sonidos/tournamet.wav</file>
     </qresource>
 </RCC>

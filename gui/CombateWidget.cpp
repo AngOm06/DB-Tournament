@@ -20,6 +20,7 @@ CombateWidget::CombateWidget(Personaje* jugador, Personaje* oponente, QWidget *p
 {
     ui->setupUi(this);
     ui->btnContinuar->hide();
+    reproducirMusicaCombate();
 
     QFile f(":/qss/assets/qss/combate.qss");
     if (f.open(QFile::ReadOnly | QFile::Text)) {
@@ -264,9 +265,10 @@ void CombateWidget::reiniciarCombate() {
 }
 
 void CombateWidget::procesarSonido(const QString& anterior, const QString& actual) {
-    // Si cambiamos de "walk", paramos el loop
     if (anterior == "walk" && actual != "walk")
         efectoCorrer.stop();
+    if (anterior == actual)
+        return;
     if (actual == "walk")   efectoCorrer.play();
     else if (actual == "attack")    efectoAtaque.play();
     else if (actual == "block")    efectoBloqueo.play();

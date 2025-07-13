@@ -2,13 +2,25 @@
 #define SONIDOS_H
 
 #include <QSoundEffect>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
-extern QSoundEffect efectoGolpe; //Conecta el golpe
-extern QSoundEffect efectoAtaque; //Lanza el ataque
+extern QMediaPlayer* musica;
+extern QAudioOutput* salidaAudio;
+
+void reproducirMusicaMenu();
+void reproducirMusicaCombate();
+void reproducirMusicaVictoria();
+void reproducirMusicaDerrota();
+void detenerMusica();
+
+extern QSoundEffect efectoGolpe;
+extern QSoundEffect efectoAtaque;
 extern QSoundEffect efectoSalto;
 extern QSoundEffect efectoBloqueo;
 extern QSoundEffect efectoCorrer;
 extern QSoundEffect efectoCombate;
+extern QSoundEffect efectoTorneo;
 
 void inicializarSonidos();
 
