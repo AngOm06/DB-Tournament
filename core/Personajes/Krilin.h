@@ -2,7 +2,6 @@
 #define KRILIN_H
 
 #include "Personaje.h"
-#include <iostream>
 
 class Krilin : public Personaje {
 public:

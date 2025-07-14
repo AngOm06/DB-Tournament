@@ -3,8 +3,6 @@
 #include "gui/CombateWidget.h"
 #include "gui/TorneoWidget.h"
 
-#include "core/Modos/Duelo1v1.h"
-#include "core/Modos/Torneo.h"
 #include "core/sonidos.h"
 
 #include "core/Personajes/Goku.h"
