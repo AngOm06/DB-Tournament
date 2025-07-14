@@ -241,6 +241,32 @@
         <file>assets/sprites/Ranfan/walk_1.png</file>
         <file>assets/sprites/Ranfan/walk_2.png</file>
         <file>assets/sprites/Ranfan/walk_3.png</file>
+        <file>assets/sprites/Bacterian/idle_0.png</file>
+        <file>assets/sprites/Bacterian/idle_1.png</file>
+        <file>assets/sprites/Bacterian/idle_2.png</file>
+        <file>assets/sprites/Bacterian/idle_3.png</file>
+        <file>assets/sprites/Bacterian/attack_0.png</file>
+        <file>assets/sprites/Bacterian/attack_1.png</file>
+        <file>assets/sprites/Bacterian/block_0.png</file>
+        <file>assets/sprites/Bacterian/jump_0.png</file>
+        <file>assets/sprites/Bacterian/jump_1.png</file>
+        <file>assets/sprites/Bacterian/jump_2.png</file>
+        <file>assets/sprites/Bacterian/jump_3.png</file>
+        <file>assets/sprites/Bacterian/jump_4.png</file>
+        <file>assets/sprites/Bacterian/jump_5.png</file>
+        <file>assets/sprites/Bacterian/jump_6.png</file>
+        <file>assets/sprites/Bacterian/jump_7.png</file>
+        <file>assets/sprites/Bacterian/super_0.png</file>
+        <file>assets/sprites/Bacterian/super_1.png</file>
+        <file>assets/sprites/Bacterian/super_2.png</file>
+        <file>assets/sprites/Bacterian/super_3.png</file>
+        <file>assets/sprites/Bacterian/super_4.png</file>
+        <file>assets/sprites/Bacterian/super_5.png</file>
+        <file>assets/sprites/Bacterian/walk_0.png</file>
+        <file>assets/sprites/Bacterian/walk_1.png</file>
+        <file>assets/sprites/Bacterian/walk_2.png</file>
+        <file>assets/sprites/Bacterian/walk_3.png</file>
+        <file>assets/sprites/Bacterian/walk_4.png</file>
     </qresource>
     <qresource prefix="/sonidos">
         <file>assets/sonidos/musica_fondo.mp3</file>
