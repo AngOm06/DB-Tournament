@@ -117,7 +117,7 @@ void TorneoWidget::on_btnIniciar_clicked(){iniciarSiguienteDuelo();}
 void TorneoWidget::actualizarFase()
 {
     QString textoFase = QString("Fase %1").arg(torneo.getNumeroRonda() + 1);
-    efectoTorneo.play();
+    efectoTorneo->play();
     ui->labelFase->setText(textoFase);
     const std::vector<Personaje*>& participantes = torneo.getParticipantes();
     int ronda = torneo.getNumeroRonda();

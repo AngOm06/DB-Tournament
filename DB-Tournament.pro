@@ -35,7 +35,6 @@ HEADERS += \
     core/Util/Funciones.h \
     core/Util/Combate.h \
     core/Modos/Duelo1v1.h \
-    core/Funciones.h \
     core/IA.h \
     core/Personajes/Bacterian.h \
     core/Personajes/Giran.h \

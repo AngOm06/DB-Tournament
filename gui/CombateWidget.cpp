@@ -219,7 +219,7 @@ void CombateWidget::actualizarHUD() {
 
 void CombateWidget::iniciarCombate() {
     ui->stackedWidget->setCurrentIndex(1);
-    efectoCombate.play();
+    efectoCombate->play();
     QCoreApplication::processEvents();
     keysPressed.clear();
     _jugador->reiniciarStats();
@@ -266,14 +266,14 @@ void CombateWidget::reiniciarCombate() {
 
 void CombateWidget::procesarSonido(const QString& anterior, const QString& actual) {
     if (anterior == "walk" && actual != "walk")
-        efectoCorrer.stop();
+        efectoCorrer->stop();
     if (anterior == actual)
         return;
-    if (actual == "walk")   efectoCorrer.play();
-    else if (actual == "attack")    efectoAtaque.play();
-    else if (actual == "block")    efectoBloqueo.play();
-    else if (actual == "jump")    efectoSalto.play();
-    else if (actual == "super")    efectoGolpe.play();
+    if (actual == "walk")   efectoCorrer->play();
+    else if (actual == "attack")    efectoAtaque->play();
+    else if (actual == "block")    efectoBloqueo->play();
+    else if (actual == "jump")    efectoSalto->play();
+    else if (actual == "super")    efectoGolpe->play();
 }
 void CombateWidget::on_btnRevancha_clicked()
 {

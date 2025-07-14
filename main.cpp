@@ -7,8 +7,6 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    qDebug() << "Plugins path:" << QCoreApplication::libraryPaths();
-
 
     int fontId = QFontDatabase::addApplicationFont(":/fonts/assets/fonts/Saiyan-sans.ttf");
     if (fontId >= 0) {
@@ -23,9 +21,10 @@ int main(int argc, char *argv[])
         a.setStyleSheet(style);
         qssFile.close();
     }
-    inicializarSonidos();
+
     MainWindow* w = new MainWindow;
     w->show();
+    inicializarSonidos();
     int exitCode = a.exec();
     delete w;
     return exitCode;

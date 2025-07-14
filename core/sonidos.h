@@ -14,13 +14,13 @@ void reproducirMusicaVictoria();
 void reproducirMusicaDerrota();
 void detenerMusica();
 
-extern QSoundEffect efectoGolpe;
-extern QSoundEffect efectoAtaque;
-extern QSoundEffect efectoSalto;
-extern QSoundEffect efectoBloqueo;
-extern QSoundEffect efectoCorrer;
-extern QSoundEffect efectoCombate;
-extern QSoundEffect efectoTorneo;
+extern QSoundEffect* efectoAtaque;
+extern QSoundEffect* efectoGolpe;
+extern QSoundEffect* efectoSalto;
+extern QSoundEffect* efectoBloqueo;
+extern QSoundEffect* efectoCorrer;
+extern QSoundEffect* efectoCombate;
+extern QSoundEffect* efectoTorneo;
 
 void inicializarSonidos();
 

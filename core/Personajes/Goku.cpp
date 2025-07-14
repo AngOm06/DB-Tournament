@@ -1,7 +1,7 @@
 #include "Goku.h"
 
 Goku::Goku()
-    : Personaje("Goku", /*vida*/100, /*velX*/4, /*danoBase*/40, /*kiMax*/50)
+    : Personaje("Goku", /*vida*/100, /*velX*/4, /*danoBase*/4, /*kiMax*/50)
 {}
 
 //Daño base x5, pero Goku queda aturdido por unos frames
